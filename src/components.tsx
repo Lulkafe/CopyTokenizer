@@ -1,31 +1,39 @@
 import React from "react";
 
-function App () {
+export default function App () {
     return (
-        <div></div>
+        <div>
+            <Header />
+            <Content>
+                <InputArea />
+                <OutputArea />
+            </Content>
+        </div>
     )
 }
 
 function Header () {
 
     return (
-        <nav></nav>
+        <nav>
+            <div id='nav__content-wrapper'>
+
+            </div>
+        </nav>
     )
 }
 
-function Content () {
+function Content (props) {
     return (
-        <div>
-
+        <div id='content__wrapper'>
+            {props.children}
         </div>
     )
 }
 
 function InputArea () {
     return (
-        <div>
-            <textarea></textarea>
-        </div>
+        <textarea id='input-area'></textarea>
     )
 }
 
@@ -34,8 +42,8 @@ function OutputArea (props) {
     const { tokens } = props; 
 
     return (
-        <div>
-            
+        <div id='output-area'>
+
         </div>
     )
 }
