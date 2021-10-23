@@ -1,21 +1,48 @@
 import React from "react";
-import { Component } from "react";
+import { Process } from './enum'; 
 
-//User text => Array of token (word/line)
 export function textToArray (text: string): string[] {
-    return [];
+    return text.trim().split('\n');
 }
 
-export function arrayToElements (array: string[]) {
-  
+export function arrayToElements (array: string[], process: Process) {
+    
+    if (process === Process.perLine)
+        return toLineElements(array);
+    
+    if (process === Process.perWord)
+        return toWordElements(array);
+
+    return null;
 }
 
-function toWordArray (text: string): string[] {
-    let processed_text = text.split(' ');
-    return processed_text;
+function toLineElements (lines: string[]) {
+    
+    const tokenClass = 'output-token';
+    
+    return (
+        <div>
+            {lines.map(line => 
+                <p><span className={tokenClass}>{line}</span></p>)}
+        </div>
+    )
 }
 
-function toLineArray (text: string): string[] {
-    let processed_text = text.split('\n').map(line => line + '\n');
-    return processed_text;
+function toWordElements (lines: string[]) {
+
+    const tokenClass = 'output-token';
+    
+    return (
+        <div>
+            {lines.map(line => {
+                const words = line.trim().split(' ').filter(v => v);
+                return (
+                    <p>
+                        {words.map(word => 
+                            <span className={tokenClass}>{word}</span>)}
+                    </p>
+                )
+            })}
+        </div>
+    )
 }

@@ -1,4 +1,4 @@
-enum Process {
+export enum Process {
     perWord,
     perLine
 }
