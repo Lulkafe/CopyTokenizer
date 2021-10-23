@@ -1,0 +1,4 @@
+enum Process {
+    perWord,
+    perLine
+}
