@@ -1,7 +1,7 @@
 import React from "react";
 import { useReducer, useContext, createContext } from "react";
 import { initState, TokenizerReducer, ACTION } from './reducer'
-import { arrayToElements } from "./textTokenizer";
+import { linesToElements } from "./textTokenizer";
 
 
 const TokenizerContext = createContext(undefined);
@@ -63,7 +63,7 @@ function OutputArea () {
 
     return (
         <div id='output-area'>
-            { arrayToElements(input, processType) }
+            { linesToElements(input, processType) }
         </div>
     )
 }

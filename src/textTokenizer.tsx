@@ -1,32 +1,24 @@
 import React from "react";
 import { Process } from './enum'; 
 
-export function textToArray (text: string): string[] {
+export function textToLines (text: string): string[] {
     return text.trim().split('\n');
 }
 
-export function arrayToElements (array: string[], process: Process) {
+export function linesToElements (lines: string[], process: Process) {
     
-    if (process === Process.perLine)
-        return toLineElements(array);
-    
-    if (process === Process.perWord)
-        return toWordElements(array);
-
-    return null;
-}
-
-function toLineElements (lines: string[]) {
-    
+    let elements = null;
     const tokenClass = 'output-area__token';
     const keySuffix = ((v = 0) => () => v += 1)(); 
     const onClick = (e) => {
         const text = e.target.textContent;
+        console.log(text);
         if (text)
             navigator.clipboard.writeText(text);
     }
-    
-    return (
+
+    if (process === Process.perLine)
+        elements = (
         <div>
             {lines.map((line, i) => 
                 <p key={`sentence-${keySuffix()}`}>
@@ -35,25 +27,27 @@ function toLineElements (lines: string[]) {
                         onClick={onClick}>{line}
                     </span>
                 </p>)}
-        </div>
-    )
-}
-
-function toWordElements (lines: string[]) {
-
-    const tokenClass = 'output-area__token';
+        </div>)
     
-    return (
+    if (process === Process.perWord)
+        elements = (
         <div>
             {lines.map(line => {
                 const words = line.trim().split(' ').filter(v => v);
                 return (
-                    <p>
+                    <p key={`sentence-${keySuffix()}`}>
                         {words.map(word => 
-                            <span className={tokenClass}>{word}</span>)}
+                        <span 
+                            key={`token-${keySuffix()}`} 
+                            className={tokenClass}
+                            onClick={onClick}>
+                            {word}
+                        </span>)}
                     </p>
                 )
             })}
-        </div>
-    )
+        </div>)
+
+    return elements;
 }
+
