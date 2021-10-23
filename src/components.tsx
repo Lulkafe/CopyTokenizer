@@ -1,13 +1,24 @@
 import React from "react";
+import { useReducer, useContext, createContext } from "react";
+import { initState, TokenizerReducer, ACTION } from './reducer'
+import { arrayToElements } from "./textTokenizer";
+
+
+const TokenizerContext = createContext(undefined);
 
 export default function App () {
+
+    const [state, dispatch] = useReducer(TokenizerReducer, initState);
+
     return (
         <div>
-            <Header />
-            <Content>
-                <InputArea />
-                <OutputArea />
-            </Content>
+            <TokenizerContext.Provider value ={{state, dispatch}}>
+                <Header />
+                <Content>
+                    <InputArea />
+                    <OutputArea />
+                </Content>
+            </TokenizerContext.Provider>
         </div>
     )
 }
@@ -32,18 +43,27 @@ function Content (props) {
 }
 
 function InputArea () {
+
+    const { dispatch } = useContext(TokenizerContext);
+    const onInput = () => {
+        const value = (document.getElementById
+            ('input-area') as HTMLInputElement).value;
+        dispatch({type: ACTION.INPUT.UPDATE, value});
+    }
+
     return (
-        <textarea id='input-area'></textarea>
+        <textarea id='input-area' onInput={onInput}></textarea>
     )
 }
 
-function OutputArea (props) {
+function OutputArea () {
 
-    const { tokens } = props; 
+    const { state } = useContext(TokenizerContext);
+    const { input, processType } = state;
 
     return (
         <div id='output-area'>
-
+            { arrayToElements(input, processType) }
         </div>
     )
 }

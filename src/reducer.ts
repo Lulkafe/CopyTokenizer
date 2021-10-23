@@ -1,23 +1,29 @@
-import { useContext } from "react"
+import { textToArray } from './textTokenizer';
+import { Process } from './enum';
 
-export let ConverterContext = useContext(undefined);
-
-const INIT_STATE = {
-    input: ''
+export const initState = {
+    input: [],
+    processType: Process.perLine
 }
 
-const ACTION = {
+export const ACTION = {
     INPUT: {
         UPDATE: 'User inputs text'
     }
 }
 
-const reducer = ({ action, state }) => {
+export const TokenizerReducer = (state, action) => {
 
-    switch (action) {
-        case ACTION.INPUT:
-            //TODO: parse user text and convert it an array of words
-            return state;
+    console.log('New event dispatched');
+    console.log(action);
+    console.log(state);
+
+    switch (action.type) {
+        case ACTION.INPUT.UPDATE:
+            return {
+                ...state,
+                input: textToArray(action.value)
+            };
 
     }
 

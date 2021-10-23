@@ -18,7 +18,7 @@ export function arrayToElements (array: string[], process: Process) {
 
 function toLineElements (lines: string[]) {
     
-    const tokenClass = 'output-token';
+    const tokenClass = 'output-area__token';
     
     return (
         <div>
@@ -30,7 +30,7 @@ function toLineElements (lines: string[]) {
 
 function toWordElements (lines: string[]) {
 
-    const tokenClass = 'output-token';
+    const tokenClass = 'output-area__token';
     
     return (
         <div>
