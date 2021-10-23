@@ -19,11 +19,22 @@ export function arrayToElements (array: string[], process: Process) {
 function toLineElements (lines: string[]) {
     
     const tokenClass = 'output-area__token';
+    const keySuffix = ((v = 0) => () => v += 1)(); 
+    const onClick = (e) => {
+        const text = e.target.textContent;
+        if (text)
+            navigator.clipboard.writeText(text);
+    }
     
     return (
         <div>
-            {lines.map(line => 
-                <p><span className={tokenClass}>{line}</span></p>)}
+            {lines.map((line, i) => 
+                <p key={`sentence-${keySuffix()}`}>
+                    <span className={tokenClass}
+                        key={`token-${keySuffix()}`} 
+                        onClick={onClick}>{line}
+                    </span>
+                </p>)}
         </div>
     )
 }
