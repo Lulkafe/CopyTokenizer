@@ -21,15 +21,20 @@ export function linesToElements (lines: string[], process: Process) {
 
 function getLineTokens (lines: string[]) {
     const tokenClass = 'output-area__token';
+    const generateToken = (line,idx) => {
+        return (
+            <ClickableToken 
+                text={line}
+                tokenClass={tokenClass}
+                keyValue={`token-${idx}`}/>
+        )
+    }
 
     return (
         <div>
             {lines.map((line, i) => 
                 <p key={`sentence-${i}`}>
-                    <ClickableToken 
-                        text={line}
-                        tokenClass={tokenClass}
-                        keyValue={`token-${i}`}/>
+                    { line !== '' && generateToken(line, i)}
                 </p>)}
         </div>)
 }
@@ -37,6 +42,14 @@ function getLineTokens (lines: string[]) {
 function getWordTokens (lines: string[]) {
     const tokenClass = 'output-area__token';
     const keySuffix = ((v = 0) => () => v += 1)(); 
+    const generateToken = (word) => {
+        return (
+            <ClickableToken 
+                text={word}
+                tokenClass={tokenClass}
+                keyValue={`token-${keySuffix()}`}/>
+        )
+    }
 
     return (
         <div>
@@ -45,10 +58,8 @@ function getWordTokens (lines: string[]) {
                 return (
                     <p key={`sentence-${keySuffix()}`}>
                         {words.map(word => 
-                        <ClickableToken 
-                            text={word}
-                            tokenClass={tokenClass}
-                            keyValue={`token-${keySuffix()}`}/>)}
+                            word !== '' && generateToken(word)
+                        )}
                     </p>
                 )
             })}
@@ -57,8 +68,9 @@ function getWordTokens (lines: string[]) {
 
 
 function ClickableToken (props) {
-	const { text, tokenClass, keyValue } = props;
+	let { text, tokenClass, keyValue } = props;
 	const [clicked, setClicked] = useState(false);
+    const additional = ' output-area__token__highlighted';
 	const onClick = (e) => {
         const text = e.target.textContent;
         if (text)
@@ -66,6 +78,9 @@ function ClickableToken (props) {
 
         setClicked(!clicked);
     }
+
+    if (clicked)
+        tokenClass += additional;
 
 	return (
 		<span 
