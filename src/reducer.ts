@@ -3,7 +3,7 @@ import { Process } from './enum';
 
 export const initState = {
     input: [],
-    processType: Process.perWord
+    processType: Process.perLine
 }
 
 export const ACTION = {
