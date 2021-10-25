@@ -16,6 +16,9 @@ export const ACTION = {
     MODE: {
         SPACE: 'Change token type to Whitespace mode',
         LINE: 'Change token type to Line mode'
+    },
+    SETTING: {
+        UPDATE: 'User updates settings'
     }
 }
 
@@ -43,7 +46,15 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 processType: Process.perWord
             };
-        }
+        
+        case ACTION.SETTING.UPDATE: 
+            return {
+                ...state,
+                removedChars: action.settings.removedChars,
+                highlightToken: action.settings.highlightToken, 
+                removeHighlight: action.settings.removeHighlight
+            }
+    }
             
     return state;
 }

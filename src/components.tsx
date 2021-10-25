@@ -43,10 +43,12 @@ function SettingMenu () {
     const { highlightToken, removeHighlight, removedChars } = state;
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log('Submitted');
-        console.log(e.target.token_clicked.value)
-        console.log(e.target.hl_clicked_again.value)
-        console.log(e.target.removedChars.value)
+        const settings = {
+            highlightToken: e.target.token_clicked.value,
+            removeHighlight: e.target.hl_clicked_again.value === 'true',
+            removedChars: e.target.removedChars.value === 'true'
+        }
+        dispatch({ type: ACTION.SETTING.UPDATE, settings });
     }
 
     return (
