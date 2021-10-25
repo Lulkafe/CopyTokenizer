@@ -6,7 +6,7 @@ export const initState = {
     processType: Process.perLine,
     removeLetters: '',
     highlightToken: true, 
-    keepHighlighted: false
+    removeHighlight: true
 }
 
 export const ACTION = {

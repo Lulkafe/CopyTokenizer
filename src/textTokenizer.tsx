@@ -63,6 +63,7 @@ function getWordTokens (lines: string[], removeLetters: string = '') {
 
 
 function processWords (line: string, removeLetters: string = null) {
+    //TODO: make this function work for line (spec change)
 
     //e.g. ,)_* 
     if (removeLetters) {
