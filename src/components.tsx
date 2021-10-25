@@ -40,10 +40,13 @@ function Header () {
 function SettingMenu () {
 
     const { state, dispatch } = useContext(TokenizerContext);
-    const { highlightToken, removeHighlight } = state;
+    const { highlightToken, removeHighlight, removedChars } = state;
     const onSubmit = (e) => {
         e.preventDefault();
         console.log('Submitted');
+        console.log(e.target.token_clicked.value)
+        console.log(e.target.hl_clicked_again.value)
+        console.log(e.target.removedChars.value)
     }
 
     return (
@@ -57,15 +60,17 @@ function SettingMenu () {
                         <li>Do you want to highlight a token when you click it?</li>
                         <div>
                             <input 
-                                type='radio' name='token-clicked' 
+                                type='radio' name='token_clicked' 
                                 id='nav__setting-radio-hl__yes' 
-                                defaultChecked={highlightToken}/>
+                                defaultChecked={highlightToken}
+                                value={'true'}/>
                             <label htmlFor='nav__setting-radio-hl'>Yes</label>
                             <br/>
                             <input 
-                                type='radio' name='token-clicked' 
+                                type='radio' name='token_clicked' 
                                 id='nav__setting-radio-hl__no'
-                                defaultChecked={!highlightToken}/>
+                                defaultChecked={!highlightToken}
+                                value={'false'}/>
                             <label htmlFor='nav__setting-radio-hl'>No</label>
                             <br/>
                         </div>
@@ -73,15 +78,17 @@ function SettingMenu () {
                             when you click the token again?</li>
                         <div>
                             <input type='radio' 
-                                name='hl-clicked-again' 
+                                name='hl_clicked_again' 
                                 id='nav__setting-radio-hlagain__yes' 
-                                defaultChecked={removeHighlight}/>
+                                defaultChecked={removeHighlight}
+                                value={'true'}/>
                             <label htmlFor='nav__setting-radio-hlagain'>Yes</label>
                             <br/>
                             <input type='radio' 
-                                name='hl-clicked-again' 
+                                name='hl_clicked_again' 
                                 id='nav__setting-radio-hlagain__no'
-                                defaultChecked={!removeHighlight}/>
+                                defaultChecked={!removeHighlight}
+                                value={'false'}/>
                             <label htmlFor='nav__setting-radio-hlagain'>No</label>
                             <br/>
                         </div>
@@ -89,7 +96,9 @@ function SettingMenu () {
                         <li>Enter characters you don't want to include 
                             in output tokens. (These will be converted into spaces)</li>
                         <input type='text' placeholder='e.g. ,.-()[]' 
-                            defaultValue={state.removeLetters}></input>
+                            defaultValue={removedChars}
+                            name='removedChars'>
+                        </input>
 
                         <div>
                             <button type='button'>Cancel</button>

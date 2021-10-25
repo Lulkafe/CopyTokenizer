@@ -4,7 +4,7 @@ import { Process } from './enum';
 export const initState = {
     input: [],
     processType: Process.perLine,
-    removeLetters: '',
+    removedChars: '',
     highlightToken: true, 
     removeHighlight: true
 }
