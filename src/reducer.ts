@@ -6,7 +6,8 @@ export const initState = {
     processType: Process.perLine,
     removedChars: '',
     highlightToken: true, 
-    removeHighlight: true
+    removeHighlight: true,
+    settingMenuOpen: false
 }
 
 export const ACTION = {
@@ -18,6 +19,9 @@ export const ACTION = {
         LINE: 'Change token type to Line mode'
     },
     SETTING: {
+        TOGGLE_DISPLAY: 'Show/Close a setting window',
+        OPEN: 'Open a setting window',
+        CLOSE: 'Close the setting window',
         UPDATE: 'User updates settings'
     }
 }
@@ -46,14 +50,35 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 processType: Process.perWord
             };
+
+        case ACTION.SETTING.OPEN:
+            return {
+                ...state,
+                settingMenuOpen: true
+            }
+
+        case ACTION.SETTING.CLOSE:
+            return {
+                ...state,
+                settingMenuOpen: false
+            }
+
+        case ACTION.SETTING.TOGGLE_DISPLAY:
+            return {
+                ...state,
+                settingMenuOpen: !state.settingMenuOpen
+            }
         
         case ACTION.SETTING.UPDATE: 
+        {
+            console.log(action.settings);
             return {
                 ...state,
                 removedChars: action.settings.removedChars,
                 highlightToken: action.settings.highlightToken, 
                 removeHighlight: action.settings.removeHighlight
             }
+        }
     }
             
     return state;

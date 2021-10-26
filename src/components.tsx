@@ -40,75 +40,93 @@ function Header () {
 function SettingMenu () {
 
     const { state, dispatch } = useContext(TokenizerContext);
+    const { settingMenuOpen } = state;
+    const onClickSettingIcon = () => {
+        dispatch({ type: ACTION.SETTING.TOGGLE_DISPLAY });
+    }
+    
+    return (
+        <div id='nav__setting-wrapper'>
+            {/* TODO: This button element is temporary.
+                will replace with a setting icon later */}
+            <button type='button' onClick={onClickSettingIcon}>Open</button>
+            { settingMenuOpen && <SettingWindow/>}
+        </div>
+    )
+}
+
+function SettingWindow () {
+
+    const { state, dispatch } = useContext(TokenizerContext);
     const { highlightToken, removeHighlight, removedChars } = state;
+    const onClickCancel = () => {
+        dispatch({ type: ACTION.SETTING.CLOSE });
+    }
     const onSubmit = (e) => {
         e.preventDefault();
         const settings = {
-            highlightToken: e.target.token_clicked.value,
-            removeHighlight: e.target.hl_clicked_again.value === 'true',
-            removedChars: e.target.removedChars.value === 'true'
+            highlightToken: e.target.token_clicked.value === 'on',
+            removeHighlight: e.target.hl_clicked_again.value === 'on',
+            removedChars: e.target.removedChars.value
         }
         dispatch({ type: ACTION.SETTING.UPDATE, settings });
+        dispatch({ type: ACTION.SETTING.CLOSE });
     }
 
+
     return (
-        <div>
-            {/* TODO: This button element is temporary.
-                will replace with a setting icon later */}
-            <button type='button'>Open</button>
-            <div id='nav__setting-window'>
-                <form onSubmit={onSubmit}>
-                    <ul>
+        <div id='nav__setting-window'> 
+            <form onSubmit={onSubmit}>
+                <ul>
+                    <div>
                         <li>Do you want to highlight a token when you click it?</li>
-                        <div>
-                            <input 
-                                type='radio' name='token_clicked' 
-                                id='nav__setting-radio-hl__yes' 
-                                defaultChecked={highlightToken}
-                                value={'true'}/>
-                            <label htmlFor='nav__setting-radio-hl'>Yes</label>
-                            <br/>
-                            <input 
-                                type='radio' name='token_clicked' 
-                                id='nav__setting-radio-hl__no'
-                                defaultChecked={!highlightToken}
-                                value={'false'}/>
-                            <label htmlFor='nav__setting-radio-hl'>No</label>
-                            <br/>
-                        </div>
+                        <input 
+                            type='radio' name='token_clicked' 
+                            id='nav__setting-radio-hl__yes' 
+                            defaultChecked={highlightToken}
+                            value={'on'}/>
+                        <label htmlFor='nav__setting-radio-hl'>Yes</label>
+                        <br/>
+                        <input 
+                            type='radio' name='token_clicked' 
+                            id='nav__setting-radio-hl__no'
+                            defaultChecked={!highlightToken}
+                            value={'off'}/>
+                        <label htmlFor='nav__setting-radio-hl'>No</label>
+                        <br/>
+                    </div>
+                    <div>
                         <li>Do you want to remove the highlight 
                             when you click the token again?</li>
-                        <div>
-                            <input type='radio' 
-                                name='hl_clicked_again' 
-                                id='nav__setting-radio-hlagain__yes' 
-                                defaultChecked={removeHighlight}
-                                value={'true'}/>
-                            <label htmlFor='nav__setting-radio-hlagain'>Yes</label>
-                            <br/>
-                            <input type='radio' 
-                                name='hl_clicked_again' 
-                                id='nav__setting-radio-hlagain__no'
-                                defaultChecked={!removeHighlight}
-                                value={'false'}/>
-                            <label htmlFor='nav__setting-radio-hlagain'>No</label>
-                            <br/>
-                        </div>
-
+                        <input type='radio' 
+                            name='hl_clicked_again' 
+                            id='nav__setting-radio-hlagain__yes' 
+                            defaultChecked={removeHighlight}
+                            value={'on'}/>
+                        <label htmlFor='nav__setting-radio-hlagain'>Yes</label>
+                        <br/>
+                        <input type='radio' 
+                            name='hl_clicked_again' 
+                            id='nav__setting-radio-hlagain__no'
+                            defaultChecked={!removeHighlight}
+                            value={'off'}/>
+                        <label htmlFor='nav__setting-radio-hlagain'>No</label>
+                        <br/>
+                    </div>
+                    <div>
                         <li>Enter characters you don't want to include 
                             in output tokens. (These will be converted into spaces)</li>
                         <input type='text' placeholder='e.g. ,.-()[]' 
                             defaultValue={removedChars}
                             name='removedChars'>
                         </input>
-
-                        <div>
-                            <button type='button'>Cancel</button>
-                            <button type='submit'>OK</button>
-                        </div>
-                    </ul>
-                </form>
-            </div>
+                    </div>
+                    <div>
+                        <button type='button' onClick={onClickCancel}>Cancel</button>
+                        <button type='submit'>OK</button>
+                    </div>
+                </ul>
+            </form>
         </div>
     )
 }
