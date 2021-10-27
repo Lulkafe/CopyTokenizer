@@ -5,8 +5,8 @@ export const initState = {
     input: [],
     processType: Process.perWord,
     removedChars: '',
-    highlightToken: true, 
-    removeHighlight: true,
+    colorToken: true, 
+    removeColor: true,
     settingMenuOpen: true
 }
 
@@ -28,9 +28,9 @@ export const ACTION = {
 
 export const TokenizerReducer = (state, action) => {
 
-    // console.log('New event dispatched');
-    // console.log(action);
-    // console.log(state);
+    console.log('New event dispatched');
+    console.log(action);
+    console.log(state);
 
     switch (action.type) {
         case ACTION.INPUT.UPDATE:
@@ -75,8 +75,8 @@ export const TokenizerReducer = (state, action) => {
             return {
                 ...state,
                 removedChars: action.settings.removedChars,
-                highlightToken: action.settings.highlightToken, 
-                removeHighlight: action.settings.removeHighlight
+                colorToken: action.settings.colorToken, 
+                removeColor: action.settings.removeColor
             }
         }
     }

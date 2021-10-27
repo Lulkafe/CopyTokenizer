@@ -58,15 +58,15 @@ function SettingMenu () {
 function SettingWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
-    const { highlightToken, removeHighlight, removedChars } = state;
+    const { colorToken, removeColor, removedChars } = state;
     const onClickCancel = () => {
         dispatch({ type: ACTION.SETTING.CLOSE });
     }
     const onSubmit = (e) => {
         e.preventDefault();
         const settings = {
-            highlightToken: e.target.token_clicked.value === 'on',
-            removeHighlight: e.target.hl_clicked_again.value === 'on',
+            colorToken: e.target.token_clicked.value === 'on',
+            removeColor: e.target.clicked_again.value === 'on',
             removedChars: e.target.removedChars.value
         }
         dispatch({ type: ACTION.SETTING.UPDATE, settings });
@@ -78,38 +78,40 @@ function SettingWindow () {
             <form onSubmit={onSubmit}>
                 <ul>
                     <div className='setting-window__item-wrapper'>
-                        <li>Do you want to highlight a token when you click it?</li>
+                        <li>Do you want to color a token when you click it?</li>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='setting-window__radio-hl--yes' 
-                            defaultChecked={highlightToken}
+                            id='setting-window__radio-color--yes' 
+                            defaultChecked={colorToken}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-hl--yes'>Yes</label>
+                        <label htmlFor='setting-radio-color--yes'>Yes. Color: 
+                           <input type='color' defaultValue='#e66465'/>
+                        </label>
                         <br/>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='setting-window__radio-hl--no'
-                            defaultChecked={!highlightToken}
+                            id='setting-window__radio-color--no'
+                            defaultChecked={!colorToken}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-hl--no'>No</label>
+                        <label htmlFor='setting-window__radio-color--no'>No</label>
                         <br/>
                     </div>
                     <div className='setting-window__item-wrapper'>
-                        <li>Do you want to remove the highlight 
+                        <li>Do you want to remove the color 
                             when you click the token again?</li>
                         <input type='radio' 
-                            name='hl_clicked_again' 
-                            id='setting-window__radio-hlagain--yes' 
-                            defaultChecked={removeHighlight}
+                            name='clicked_again' 
+                            id='setting-window__radio-again--yes' 
+                            defaultChecked={removeColor}
                             value={'on'}/>
-                        <label htmlFor='nav__setting-radio-hlagain'>Yes</label>
+                        <label htmlFor='nav__setting-radio-again'>Yes</label>
                         <br/>
                         <input type='radio' 
-                            name='hl_clicked_again' 
-                            id='setting-window__radio-hlagain--no'
-                            defaultChecked={!removeHighlight}
+                            name='clicked_again' 
+                            id='setting-window__radio-again--no'
+                            defaultChecked={!removeColor}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-hlagain--no'>No</label>
+                        <label htmlFor='setting-window__radio-again--no'>No</label>
                         <br/>
                     </div>
                     <div className='setting-window__item-wrapper'>

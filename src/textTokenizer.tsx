@@ -89,15 +89,20 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
     
     for (let i = 0; i < removedLetters.length; i++) {
         let c = removedLetters[i];
-        let re;
+        let re: RegExp = null;
         let idx = escapedChars.indexOf(c);
 
-        if (idx === -1) 
-            re = new RegExp(c, 'g');
-        else
-            re = rgxsForEscaped[idx];
-        
-        line = line.replace(re, ' ');
+        try {
+            if (idx === -1) 
+                re = new RegExp(c, 'g');
+            else
+                re = rgxsForEscaped[idx];
+            
+            line = line.replace(re, ' ');
+        } catch (e) {
+            console.error(e);
+            throw new Error(e.message);
+        }
     }
 
     return line;
@@ -109,9 +114,9 @@ function ClickableToken (props) {
 	const [clicked, setClicked] = useState(false);
     const highlighted = ' output-area__token__highlighted';
 	const onClick = (e) => {
-        const text = e.target.textContent;
-        if (text)
-            navigator.clipboard.writeText(text);
+        const textContent = e.target.textContent;
+        if (textContent)
+            navigator.clipboard.writeText(textContent);
 
         setClicked(!clicked);
     }
