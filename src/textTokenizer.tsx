@@ -6,38 +6,40 @@ export function textToLines (text: string): string[] {
     return text.trim().split('\n');
 }
 
-export function linesToElements (lines: string[], process: Process) {
+export function linesToElements (lines: string[], process: Process, removedChars: string) {
     
     let elements = null;
 
     if (process === Process.perLine)
-        elements = getLineTokens(lines);
+        elements = getLineTokens(lines, removedChars);
     
     if (process === Process.perWord)
-        elements = getWordTokens(lines);
+        elements = getWordTokens(lines, removedChars);
 
     return elements;
 }
 
-function getLineTokens (lines: string[]) {
+function getLineTokens (lines: string[], removedChars: string = '') {
     const tokenClass = 'output-area__token';
     const generateToken = (line,idx) => 
         <ClickableToken 
             text={line}
             tokenClass={tokenClass}
             keyValue={`token-${idx}`}/>
-        
 
     return (
         <div>
-            {lines.map((line, i) => 
-                <p key={`sentence-${i}`}>
-                    { line !== '' && generateToken(line, i)}
-                </p>)}
+            {lines.map((line, i) => {
+                line = preprocessLine(line, removedChars);
+                return (
+                    <p key={`sentence-${i}`}>
+                        { line !== '' && generateToken(line, i)}
+                    </p>)
+            })}
         </div>)
 }
 
-function getWordTokens (lines: string[], removeLetters: string = '') {
+function getWordTokens (lines: string[], removeChars: string = '') {
     const tokenClass = 'output-area__token';
     const keySuffix = ((v = 0) => () => v += 1)(); 
     const createToken = (word) => 
@@ -49,7 +51,7 @@ function getWordTokens (lines: string[], removeLetters: string = '') {
     return (
         <div>
             {lines.map(line => {
-                const words = processWords(line, removeLetters);
+                const words = preprocessWords(line, removeChars);
                 return (
                     <p key={`line-${keySuffix()}`}>
                         {words.map(word => 
@@ -62,19 +64,43 @@ function getWordTokens (lines: string[], removeLetters: string = '') {
 }
 
 
-function processWords (line: string, removeLetters: string = null) {
-    //TODO: make this function work for line (spec change)
-
-    //e.g. ,)_* 
-    if (removeLetters) {
-        for (let i = 0; i < removeLetters.length; i++) {
-            const c = removeLetters[i];
-            const re = new RegExp(c, 'g');
-            line = line.replace(re, ' ');
-        }
-    }
+function preprocessWords (line: string, removedLetters: string = '') {
+    if (removedLetters) 
+        line = replaceCharsWithSpace(line, removedLetters);
 
     return line.trim().split(' ').filter(v => v);
+}
+
+function preprocessLine (line: string, removedLetters: string = '') {
+    if (removedLetters) 
+        line = replaceCharsWithSpace(line, removedLetters)
+    
+    return line;
+}
+
+function replaceCharsWithSpace (line: string, removedLetters: string) {
+    
+    const escapedChars = ['.','^','$','*','+','-','?','(',')',
+                          '[',']','{','}','|', '//','—','/'];
+    const rgxsForEscaped = [/\./g, /\^/g, /\$/g, /\*/g, /\+/g, 
+                            /\-/g, /\?/g, /\(/g, /\)/g, /\[/g, 
+                            /\]/g, /\{/g, /\}/g, /\|/g, /\\/g, 
+                            /\—/g, /\//g];
+    
+    for (let i = 0; i < removedLetters.length; i++) {
+        let c = removedLetters[i];
+        let re;
+        let idx = escapedChars.indexOf(c);
+
+        if (idx === -1) 
+            re = new RegExp(c, 'g');
+        else
+            re = rgxsForEscaped[idx];
+        
+        line = line.replace(re, ' ');
+    }
+
+    return line;
 }
 
 

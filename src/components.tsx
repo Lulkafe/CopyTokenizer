@@ -156,11 +156,11 @@ function InputArea () {
 function OutputArea () {
 
     const { state } = useContext(TokenizerContext);
-    const { input, processType } = state;
+    const { input, processType, removedChars } = state;
 
     return (
         <div id='output-area'>
-            { linesToElements(input, processType) }
+            { linesToElements(input, processType, removedChars) }
         </div>
     )
 }
