@@ -25,7 +25,7 @@ function getLineTokens (lines: string[], removedChars: string = '') {
         <ClickableToken 
             text={line}
             tokenClass={tokenClass}
-            keyValue={`token-${idx}`}/>
+            key={`token-${idx}`}/>
 
     return (
         <div>
@@ -45,15 +45,15 @@ function getWordTokens (lines: string[], removeChars: string = '') {
     const createToken = (word) => 
         <ClickableToken 
             text={word}
-            tokenClass={tokenClass}
-            keyValue={`token-${keySuffix()}`}/>
+            key={`token-${keySuffix()}`}
+            tokenClass={tokenClass}/>
 
     return (
         <div>
-            {lines.map(line => {
+            {lines.map((line, i) => {
                 const words = preprocessWords(line, removeChars);
                 return (
-                    <p key={`line-${keySuffix()}`}>
+                    <p key={`line-${i}`}>
                         {words.map(word => 
                             word !== '' && createToken(word)
                         )}
@@ -105,7 +105,7 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
 
 
 function ClickableToken (props) {
-	let { text, tokenClass, keyValue } = props;
+	let { text, tokenClass } = props;
 	const [clicked, setClicked] = useState(false);
     const highlighted = ' output-area__token__highlighted';
 	const onClick = (e) => {
@@ -122,7 +122,6 @@ function ClickableToken (props) {
 	return (
 		<span 
 			className={tokenClass}
-			key={keyValue}
 			onClick={onClick}>
 		    {text}
 		</span>
