@@ -7,7 +7,7 @@ export const initState = {
     removedChars: '',
     highlightToken: true, 
     removeHighlight: true,
-    settingMenuOpen: false
+    settingMenuOpen: true
 }
 
 export const ACTION = {

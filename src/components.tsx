@@ -46,7 +46,7 @@ function SettingMenu () {
     }
     
     return (
-        <div id='nav__setting-wrapper'>
+        <div id='setting-component-wrapper'>
             {/* TODO: This button element is temporary.
                 will replace with a setting icon later */}
             <button type='button' onClick={onClickSettingIcon}>Open</button>
@@ -73,47 +73,46 @@ function SettingWindow () {
         dispatch({ type: ACTION.SETTING.CLOSE });
     }
 
-
     return (
-        <div id='nav__setting-window'> 
+        <div id='setting-window'> 
             <form onSubmit={onSubmit}>
                 <ul>
-                    <div>
+                    <div className='setting-window__item-wrapper'>
                         <li>Do you want to highlight a token when you click it?</li>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='nav__setting-radio-hl__yes' 
+                            id='setting-window__radio-hl--yes' 
                             defaultChecked={highlightToken}
                             value={'on'}/>
-                        <label htmlFor='nav__setting-radio-hl'>Yes</label>
+                        <label htmlFor='setting-radio-hl--yes'>Yes</label>
                         <br/>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='nav__setting-radio-hl__no'
+                            id='setting-window__radio-hl--no'
                             defaultChecked={!highlightToken}
                             value={'off'}/>
-                        <label htmlFor='nav__setting-radio-hl'>No</label>
+                        <label htmlFor='setting-window__radio-hl--no'>No</label>
                         <br/>
                     </div>
-                    <div>
+                    <div className='setting-window__item-wrapper'>
                         <li>Do you want to remove the highlight 
                             when you click the token again?</li>
                         <input type='radio' 
                             name='hl_clicked_again' 
-                            id='nav__setting-radio-hlagain__yes' 
+                            id='setting-window__radio-hlagain--yes' 
                             defaultChecked={removeHighlight}
                             value={'on'}/>
                         <label htmlFor='nav__setting-radio-hlagain'>Yes</label>
                         <br/>
                         <input type='radio' 
                             name='hl_clicked_again' 
-                            id='nav__setting-radio-hlagain__no'
+                            id='setting-window__radio-hlagain--no'
                             defaultChecked={!removeHighlight}
                             value={'off'}/>
-                        <label htmlFor='nav__setting-radio-hlagain'>No</label>
+                        <label htmlFor='setting-window__radio-hlagain--no'>No</label>
                         <br/>
                     </div>
-                    <div>
+                    <div className='setting-window__item-wrapper'>
                         <li>Enter characters you don't want to include 
                             in output tokens. (These will be converted into spaces)</li>
                         <input type='text' placeholder='e.g. ,.-()[]' 
@@ -121,7 +120,7 @@ function SettingWindow () {
                             name='removedChars'>
                         </input>
                     </div>
-                    <div>
+                    <div className='setting-window__btn-wrapper'>
                         <button type='button' onClick={onClickCancel}>Cancel</button>
                         <button type='submit'>OK</button>
                     </div>
