@@ -1,6 +1,6 @@
 import React from "react";
 import { useReducer, useContext, createContext, useState } from "react";
-import { initState, TokenizerReducer, ACTION } from './reducer'
+import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 
 
@@ -67,7 +67,8 @@ function SettingWindow () {
         const settings = {
             colorToken: e.target.token_clicked.value === 'on',
             removeColor: e.target.clicked_again.value === 'on',
-            removedChars: e.target.removedChars.value
+            removedChars: e.target.removedChars.value,
+            clickedTokenColor: e.target.token_color.value
         }
         dispatch({ type: ACTION.SETTING.UPDATE, settings });
         dispatch({ type: ACTION.SETTING.CLOSE });
@@ -85,7 +86,7 @@ function SettingWindow () {
                             defaultChecked={colorToken}
                             value={'on'}/>
                         <label htmlFor='setting-radio-color--yes'>Yes. Color: 
-                           <input type='color' defaultValue='#e66465'/>
+                           <input type='color' name='token_color' defaultValue='#e66465'/>
                         </label>
                         <br/>
                         <input 
@@ -158,11 +159,16 @@ function InputArea () {
 function OutputArea () {
 
     const { state } = useContext(TokenizerContext);
-    const { input, processType, removedChars } = state;
+    const { input, processType, removedChars, clickedTokenColor } = state;
+    let config: TokenConfig = {
+        processType,
+        removedChars,
+        clickedTokenColor
+    }
 
     return (
         <div id='output-area'>
-            { linesToElements(input, processType, removedChars) }
+            { linesToElements(input, config) }
         </div>
     )
 }

@@ -1,13 +1,20 @@
 import { textToLines } from './textTokenizer';
 import { Process } from './enum';
 
+export interface TokenConfig {
+    processType?: Process
+    removedChars?: string,
+    clickedTokenColor?: string
+}
+
 export const initState = {
     input: [],
     processType: Process.perWord,
     removedChars: '',
     colorToken: true, 
     removeColor: true,
-    settingMenuOpen: true
+    settingMenuOpen: true,
+    clickedTokenColor: 'yellow'
 }
 
 export const ACTION = {
@@ -76,7 +83,8 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 removedChars: action.settings.removedChars,
                 colorToken: action.settings.colorToken, 
-                removeColor: action.settings.removeColor
+                removeColor: action.settings.removeColor,
+                clickedTokenColor: action.settings.clickedTokenColor
             }
         }
     }

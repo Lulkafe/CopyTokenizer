@@ -1,36 +1,42 @@
 import React from "react";
 import { Process } from './enum'; 
 import { useState } from "react";
+import { TokenConfig } from "./reducer";
 
 export function textToLines (text: string): string[] {
     return text.trim().split('\n');
 }
 
-export function linesToElements (lines: string[], process: Process, removedChars: string) {
-    
+export function linesToElements (lines: string[], config: TokenConfig) {
+    const process = config.processType;
     let elements = null;
 
+    console.log(config)
+
     if (process === Process.perLine)
-        elements = getLineTokens(lines, removedChars);
+        elements = generateLineTokens(lines, config);
     
     if (process === Process.perWord)
-        elements = getWordTokens(lines, removedChars);
+        elements = generateWordTokens(lines, config);
 
     return elements;
 }
 
-function getLineTokens (lines: string[], removedChars: string = '') {
+function generateLineTokens (lines: string[], config: TokenConfig) {
     const tokenClass = 'output-area__token';
+    const { removedChars, clickedTokenColor } = config;   
     const generateToken = (line,idx) => 
         <ClickableToken 
             text={line}
             tokenClass={tokenClass}
+            highlightColor={clickedTokenColor}
             key={`token-${idx}`}/>
 
     return (
         <div>
             {lines.map((line, i) => {
-                line = preprocessLine(line, removedChars);
+                if (removedChars) 
+                line = replaceCharsWithSpace(line, removedChars)
                 return (
                     <p key={`sentence-${i}`}>
                         { line !== '' && generateToken(line, i)}
@@ -39,19 +45,23 @@ function getLineTokens (lines: string[], removedChars: string = '') {
         </div>)
 }
 
-function getWordTokens (lines: string[], removeChars: string = '') {
+function generateWordTokens (lines: string[], config: TokenConfig) {
     const tokenClass = 'output-area__token';
+    const { removedChars, clickedTokenColor } = config;
     const keySuffix = ((v = 0) => () => v += 1)(); 
     const createToken = (word) => 
         <ClickableToken 
             text={word}
             key={`token-${keySuffix()}`}
+            highlightColor={clickedTokenColor}
             tokenClass={tokenClass}/>
-
     return (
         <div>
             {lines.map((line, i) => {
-                const words = preprocessWords(line, removeChars);
+                if (removedChars)
+                    line = replaceCharsWithSpace(line, removedChars); 
+
+                const words = line.trim().split(' ').filter(v => v)
                 return (
                     <p key={`line-${i}`}>
                         {words.map(word => 
@@ -61,21 +71,6 @@ function getWordTokens (lines: string[], removeChars: string = '') {
                 )
             })}
         </div>)
-}
-
-
-function preprocessWords (line: string, removedLetters: string = '') {
-    if (removedLetters) 
-        line = replaceCharsWithSpace(line, removedLetters);
-
-    return line.trim().split(' ').filter(v => v);
-}
-
-function preprocessLine (line: string, removedLetters: string = '') {
-    if (removedLetters) 
-        line = replaceCharsWithSpace(line, removedLetters)
-    
-    return line;
 }
 
 function replaceCharsWithSpace (line: string, removedLetters: string) {
@@ -110,7 +105,7 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
 
 
 function ClickableToken (props) {
-	let { text, tokenClass } = props;
+	let { text, tokenClass, highlightColor } = props;
 	const [clicked, setClicked] = useState(false);
     const highlighted = ' output-area__token__highlighted';
 	const onClick = (e) => {
@@ -121,13 +116,12 @@ function ClickableToken (props) {
         setClicked(!clicked);
     }
 
-    if (clicked)
-        tokenClass += highlighted;
 
 	return (
 		<span 
 			className={tokenClass}
-			onClick={onClick}>
+			onClick={onClick}
+            style={{ background: clicked? highlightColor : 'white' }}>
 		    {text}
 		</span>
 	)
