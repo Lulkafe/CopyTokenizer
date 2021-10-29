@@ -23,13 +23,13 @@ export function linesToElements (lines: string[], config: TokenConfig) {
 }
 
 function generateLineTokens (lines: string[], config: TokenConfig) {
-    const tokenClass = 'output-area__token';
-    const { removedChars, clickedTokenColor } = config;   
+    const tokenClass = 'token';
+    const { removedChars } = config;   
     const generateToken = (line,idx) => 
         <ClickableToken 
             text={line}
             tokenClass={tokenClass}
-            highlightColor={clickedTokenColor}
+            config={config}
             key={`token-${idx}`}/>
 
     return (
@@ -46,14 +46,14 @@ function generateLineTokens (lines: string[], config: TokenConfig) {
 }
 
 function generateWordTokens (lines: string[], config: TokenConfig) {
-    const tokenClass = 'output-area__token';
-    const { removedChars, clickedTokenColor } = config;
+    const tokenClass = 'token';
+    const { removedChars } = config;
     const keySuffix = ((v = 0) => () => v += 1)(); 
     const createToken = (word) => 
         <ClickableToken 
             text={word}
             key={`token-${keySuffix()}`}
-            highlightColor={clickedTokenColor}
+            config={config}
             tokenClass={tokenClass}/>
     return (
         <div>
@@ -105,23 +105,24 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
 
 
 function ClickableToken (props) {
-	let { text, tokenClass, highlightColor } = props;
-	const [clicked, setClicked] = useState(false);
-    const highlighted = ' output-area__token__highlighted';
-	const onClick = (e) => {
+	let { text, tokenClass, config } = props;
+    const { colorToken } = config;
+    const [toggle, setToggle] = useState(false);
+    const onClick = (e) => {
         const textContent = e.target.textContent;
         if (textContent)
             navigator.clipboard.writeText(textContent);
 
-        setClicked(!clicked);
-    }
+        setToggle(!toggle);
+    };
 
-
+    if (colorToken && toggle) 
+        tokenClass += ' token--grayout'
+   
 	return (
 		<span 
 			className={tokenClass}
-			onClick={onClick}
-            style={{ background: clicked? highlightColor : 'white' }}>
+			onClick={onClick}>
 		    {text}
 		</span>
 	)

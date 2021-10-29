@@ -3,8 +3,8 @@ import { Process } from './enum';
 
 export interface TokenConfig {
     processType?: Process
-    removedChars?: string,
-    clickedTokenColor?: string
+    removedChars?: string
+    colorToken?: boolean
 }
 
 export const initState = {
@@ -13,8 +13,7 @@ export const initState = {
     removedChars: '',
     colorToken: true, 
     removeColor: true,
-    settingMenuOpen: true,
-    clickedTokenColor: 'yellow'
+    settingMenuOpen: true
 }
 
 export const ACTION = {
@@ -83,8 +82,7 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 removedChars: action.settings.removedChars,
                 colorToken: action.settings.colorToken, 
-                removeColor: action.settings.removeColor,
-                clickedTokenColor: action.settings.clickedTokenColor
+                removeColor: action.settings.removeColor
             }
         }
     }
