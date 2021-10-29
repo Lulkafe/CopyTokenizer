@@ -58,7 +58,7 @@ function SettingMenu () {
 function SettingWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
-    const { colorToken, removeColor, removedChars } = state;
+    const { colorToken, removedChars } = state;
     const onClickCancel = () => {
         dispatch({ type: ACTION.SETTING.CLOSE });
     }
@@ -128,9 +128,18 @@ function InputArea () {
             ('input-area') as HTMLInputElement).value;
         dispatch({type: ACTION.INPUT.UPDATE, value});
     }
+    const onClick = () => {
+        (document.getElementById('input-area') as HTMLInputElement).value = '';
+        dispatch({type: ACTION.INPUT.CLEAR});
+    }
 
     return (
-        <textarea id='input-area' onInput={onInput}></textarea>
+        <div id='input-area-wrapper'>
+            <div id='clear-btn-container'>
+                <button type='button' onClick={onClick}>X</button>
+            </div>
+            <textarea id='input-area' onInput={onInput}></textarea>
+        </div>
     )
 }
 

@@ -18,7 +18,8 @@ export const initState = {
 
 export const ACTION = {
     INPUT: {
-        UPDATE: 'User inputs text'
+        UPDATE: 'User inputs text',
+        CLEAR: 'Clear input'
     },
     MODE: {
         SPACE: 'Change token type to Whitespace mode',
@@ -44,6 +45,12 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 input: textToLines(action.value)
             };
+        
+        case ACTION.INPUT.CLEAR:
+            return {
+                ...state,
+                input: []
+            }
 
         case ACTION.MODE.LINE:
             return {
