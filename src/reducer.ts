@@ -2,9 +2,9 @@ import { textToLines } from './textTokenizer';
 import { Process } from './enum';
 
 export interface TokenConfig {
-    processType?: Process
-    removedChars?: string
-    colorToken?: boolean
+    processType: Process
+    removedChars: string
+    colorToken: boolean
 }
 
 export const initState = {

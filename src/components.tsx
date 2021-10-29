@@ -77,7 +77,7 @@ function SettingWindow () {
             <form onSubmit={onSubmit}>
                 <ul>
                     <div className='setting-window__item-wrapper'>
-                        <li>Grayout when a token is clicked</li>
+                        <li>Grayout a token when clicked</li>
                         <input 
                             type='radio' name='token_clicked' 
                             id='setting-window__radio-color--yes' 
