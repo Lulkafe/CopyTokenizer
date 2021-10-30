@@ -26,8 +26,8 @@ export default function App () {
 function Header () {
 
     return (
-        <nav>
-            <div id='nav__content-wrapper'>
+        <nav id='nav-bar'>
+            <div id='nav-bar__content-wrapper'>
                 {/* This Icon is temporary.
                     Will replace with a setting icon later */}
                 <button type='button'>Icon</button>
@@ -155,7 +155,7 @@ function OutputArea () {
 
     return (
         <div id='output-area'>
-            { linesToElements(input, config) }
-        </div>
+                { linesToElements(input, config) }
+        </div> 
     )
 }

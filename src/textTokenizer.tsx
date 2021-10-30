@@ -2,16 +2,15 @@ import React from "react";
 import { Process } from './enum'; 
 import { useState } from "react";
 import { TokenConfig } from "./reducer";
+import { ReactElement } from "react";
 
 export function textToLines (text: string): string[] {
     return text.trim().split('\n');
 }
 
-export function linesToElements (lines: string[], config: TokenConfig) {
+export function linesToElements (lines: string[], config: TokenConfig): ReactElement {
     const process = config.processType;
     let elements = null;
-
-    console.log(config)
 
     if (process === Process.perLine)
         elements = generateLineTokens(lines, config);
@@ -22,7 +21,7 @@ export function linesToElements (lines: string[], config: TokenConfig) {
     return elements;
 }
 
-function generateLineTokens (lines: string[], config: TokenConfig) {
+function generateLineTokens (lines: string[], config: TokenConfig): ReactElement {
     const tokenClass = 'token';
     const { removedChars } = config;   
     const generateToken = (line,idx) => 
@@ -45,7 +44,7 @@ function generateLineTokens (lines: string[], config: TokenConfig) {
         </div>)
 }
 
-function generateWordTokens (lines: string[], config: TokenConfig) {
+function generateWordTokens (lines: string[], config: TokenConfig): ReactElement {
     const tokenClass = 'token';
     const { removedChars } = config;
     const keySuffix = ((v = 0) => () => v += 1)(); 
@@ -73,7 +72,7 @@ function generateWordTokens (lines: string[], config: TokenConfig) {
         </div>)
 }
 
-function replaceCharsWithSpace (line: string, removedLetters: string) {
+function replaceCharsWithSpace (line: string, removedChars: string): string {
     
     const escapedChars = ['.','^','$','*','+','-','?','(',')',
                           '[',']','{','}','|', '//','—','/'];
@@ -82,10 +81,10 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
                             /\]/g, /\{/g, /\}/g, /\|/g, /\\/g, 
                             /\—/g, /\//g];
     
-    for (let i = 0; i < removedLetters.length; i++) {
-        let c = removedLetters[i];
+    for (let i = 0; i < removedChars.length; i++) {
+        const c = removedChars[i];
+        const idx = escapedChars.indexOf(c);
         let re: RegExp = null;
-        let idx = escapedChars.indexOf(c);
 
         try {
             if (idx === -1) 
@@ -104,7 +103,7 @@ function replaceCharsWithSpace (line: string, removedLetters: string) {
 }
 
 
-function ClickableToken (props) {
+function ClickableToken (props): ReactElement {
 	let { text, tokenClass, config } = props;
     const { colorToken } = config;
     const [toggle, setToggle] = useState(false);
