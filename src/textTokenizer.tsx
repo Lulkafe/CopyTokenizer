@@ -112,7 +112,8 @@ function ClickableToken (props): ReactElement {
         if (textContent)
             navigator.clipboard.writeText(textContent);
 
-        setToggle(!toggle);
+        if (colorToken)
+            setToggle(!toggle);
     };
 
     if (colorToken && toggle) 
