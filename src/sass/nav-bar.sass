@@ -20,8 +20,9 @@
     position: absolute
     left: -250px
     width: 300px
-    height: 250px
+    height: 300px
     padding: 16px
+    z-index: 255
     background-color: #EEEEEE
     border: 1px solid #979797
     overflow: scroll
@@ -29,9 +30,26 @@
 
 .setting-window__btn-wrapper
     height: auto
+    text-align: right
+
+.setting-window__btn-wrapper button 
+    width: 80px
+    height: 40px
 
 .setting-window__item-wrapper
     margin-bottom: 15px
 
+.setting-window__item-wrapper label
+    margin-left: 5px
+
+.setting-window__item-wrapper input[type='radio']
+    margin-top: 6px
+
 #setting-window ul
     padding-left: 20px
+
+#setting-window__user-input
+    margin-top: 10px
+    width: 210px
+    height: 30px
+    font-size: 18px

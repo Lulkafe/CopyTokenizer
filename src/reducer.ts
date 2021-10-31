@@ -1,5 +1,5 @@
 import { textToLines } from './textTokenizer';
-import { Process } from './enum';
+import { Display, Process } from './enum';
 
 export interface TokenConfig {
     processType: Process
@@ -13,7 +13,8 @@ export const initState = {
     removedChars: '',
     colorToken: true, 
     removeColor: true,
-    settingMenuOpen: true
+    settingMenuOpen: false,
+    displayType: Display.input
 }
 
 export const ACTION = {

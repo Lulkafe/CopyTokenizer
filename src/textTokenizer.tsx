@@ -106,17 +106,17 @@ function replaceCharsWithSpace (line: string, removedChars: string): string {
 function ClickableToken (props): ReactElement {
 	let { text, tokenClass, config } = props;
     const { colorToken } = config;
-    const [toggle, setToggle] = useState(false);
+    const [clickedToggle, setClickedToggle] = useState(false);
     const onClick = (e) => {
         const textContent = e.target.textContent;
         if (textContent)
             navigator.clipboard.writeText(textContent);
 
         if (colorToken)
-            setToggle(!toggle);
+            setClickedToggle(!clickedToggle);
     };
 
-    if (colorToken && toggle) 
+    if (colorToken && clickedToggle) 
         tokenClass += ' token--grayout'
    
 	return (

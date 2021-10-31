@@ -2,22 +2,22 @@ import React from "react";
 import { useReducer, useContext, createContext, useState } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
-
+import { useMediaQuery } from "react-responsive";
+import { Display } from "./enum";
 
 const TokenizerContext = createContext(undefined);
 
 export default function App () {
 
     const [state, dispatch] = useReducer(TokenizerReducer, initState);
+    const isMobile = useMediaQuery({ query: '(max-width: 601px)'});
+
 
     return (
         <div>
             <TokenizerContext.Provider value ={{state, dispatch}}>
                 <Header />
-                <Content>
-                    <InputArea />
-                    <OutputArea />
-                </Content>
+                <Content isMobile={isMobile}/>
             </TokenizerContext.Provider>
         </div>
     )
@@ -77,7 +77,7 @@ function SettingWindow () {
             <form onSubmit={onSubmit}>
                 <ul>
                     <div className='setting-window__item-wrapper'>
-                        <li>Grayout clicked tokens (you can remove grayout by clicking again)</li>
+                        <li>Grayout clicked tokens </li>
                         <input 
                             type='radio' name='token_clicked' 
                             id='setting-window__radio-color--yes' 
@@ -96,14 +96,19 @@ function SettingWindow () {
                     <div className='setting-window__item-wrapper'>
                         <li>Enter characters you don't want to include 
                             in output tokens. (These will be converted into spaces)</li>
-                        <input type='text' placeholder='e.g. ,.-()[]' 
+                        <input type='text' 
+                            id='setting-window__user-input' 
+                            placeholder='e.g. ,.-()[]' 
                             defaultValue={removedChars}
                             name='removedChars'>
                         </input>
                     </div>
                     <div className='setting-window__btn-wrapper'>
-                        <button type='button' onClick={onClickCancel}>Cancel</button>
-                        <button type='submit'>OK</button>
+                        <button type='button' 
+                            id='setting-window__cancel-button'
+                            onClick={onClickCancel}>Cancel</button>
+                        <button type='submit'
+                            id='setting-window__save-button'>Save</button>
                     </div>
                 </ul>
             </form>
@@ -113,9 +118,21 @@ function SettingWindow () {
 
 
 function Content (props) {
-    return (
+    const { isMobile } = props;
+    const { state } = useContext(TokenizerContext);
+
+    if (isMobile)
+        return (
+            <div id='content__wrapper'>
+                { state.displayType === Display.input? 
+                    <InputArea/> : <OutputArea/>}
+            </div> 
+        )
+    else 
+        return (
         <div id='content__wrapper'>
-            {props.children}
+            <InputArea/>
+            <OutputArea/>
         </div>
     )
 }
