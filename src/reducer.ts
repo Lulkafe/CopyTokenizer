@@ -1,5 +1,5 @@
 import { textToLines } from './textTokenizer';
-import { Display, Process } from './enum';
+import { Process } from './enum';
 
 export interface TokenConfig {
     processType: Process
@@ -8,23 +8,28 @@ export interface TokenConfig {
 }
 
 export const initState = {
-    input: [],
+    input: [], 
+    originalInputText: '',
     processType: Process.perWord,
     removedChars: '',
     colorToken: true, 
     removeColor: true,
     settingMenuOpen: false,
-    displayType: Display.input
+    displayInput: true 
 }
 
 export const ACTION = {
     INPUT: {
-        UPDATE: 'User inputs text',
-        CLEAR: 'Clear input'
+        UPDATE: 'User inputs the text field',
+        CLEAR: 'Clear input',
+        KEEP: 'Keep original input text'
     },
     MODE: {
         SPACE: 'Change token type to Whitespace mode',
         LINE: 'Change token type to Line mode'
+    },
+    DISPLAY: {
+        TOGGLE: 'Toggle Input/Output field'
     },
     SETTING: {
         TOGGLE_DISPLAY: 'Show/Close a setting window',
@@ -52,6 +57,12 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 input: []
             }
+        
+        case ACTION.INPUT.KEEP:
+            return {
+                ...state,
+                originalInputText: action.value
+            }
 
         case ACTION.MODE.LINE:
             return {
@@ -64,6 +75,12 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 processType: Process.perWord
             };
+
+        case ACTION.DISPLAY.TOGGLE:
+            return {
+                ...state,
+                displayInput: state.displayInput? false : true
+            }
 
         case ACTION.SETTING.OPEN:
             return {

@@ -1,9 +1,8 @@
 import React from "react";
-import { useReducer, useContext, createContext, useState } from "react";
+import { useReducer, useContext, createContext, useEffect } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
-import { Display } from "./enum";
 
 const TokenizerContext = createContext(undefined);
 
@@ -119,27 +118,44 @@ function SettingWindow () {
 
 function Content (props) {
     const { isMobile } = props;
-    const { state } = useContext(TokenizerContext);
+    const { state, dispatch } = useContext(TokenizerContext);
+    const { displayInput, originalInputText } = state;
+    const onClick = () => {
+        if(displayInput) {
+            const value = (document.getElementById
+                ('input-area') as HTMLInputElement).value;
+            dispatch({type: ACTION.INPUT.KEEP, value });
+        }
+        
+        dispatch({type: ACTION.DISPLAY.TOGGLE})
+    }
+    
 
     if (isMobile)
         return (
-            <div id='content__wrapper'>
-                { state.displayType === Display.input? 
-                    <InputArea/> : <OutputArea/>}
+            <div id='content-wrapper'>
+                { displayInput? 
+                    <InputArea defaultText={originalInputText}/> : 
+                    <OutputArea/>}
+                <div id='display-toggle-btn-wrapper'>
+                    {/* Toggle Input/Output. should be replaced later/*/}
+                    <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>
+                </div>
             </div> 
         )
     else 
         return (
-        <div id='content__wrapper'>
+        <div id='content-wrapper'>
             <InputArea/>
             <OutputArea/>
         </div>
     )
 }
 
-function InputArea () {
+function InputArea (props) {
 
     const { dispatch } = useContext(TokenizerContext);
+    const defaultText = props.defaultText;
     const onInput = () => {
         const value = (document.getElementById
             ('input-area') as HTMLInputElement).value;
@@ -155,7 +171,8 @@ function InputArea () {
             <div id='clear-btn-container'>
                 <button type='button' onClick={onClick}>X</button>
             </div>
-            <textarea id='input-area' onInput={onInput}></textarea>
+            <textarea id='input-area' onInput={onInput}
+                defaultValue={defaultText}></textarea>
         </div>
     )
 }
