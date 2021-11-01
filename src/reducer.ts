@@ -102,7 +102,6 @@ export const TokenizerReducer = (state, action) => {
         
         case ACTION.SETTING.UPDATE: 
         {
-            console.log(action.settings);
             return {
                 ...state,
                 removedChars: action.settings.removedChars,

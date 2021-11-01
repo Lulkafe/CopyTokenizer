@@ -149,7 +149,7 @@ function Content (props) {
             <InputArea/>
             <OutputArea/>
         </div>
-    )
+        )
 }
 
 function InputArea (props) {
