@@ -26,17 +26,37 @@ function Header () {
 
     return (
         <nav id='nav-bar'>
-            <div id='nav-bar__content-wrapper'>
+            <div id='nav-bar-wrapper'>
                 {/* This Icon is temporary.
                     Will replace with a setting icon later */}
                 <button type='button'>Icon</button>
-                <SettingMenu/>
+
+                <div id='menu-wrapper'>
+                    <ModeSetting/>
+                    <GeneralSetting/>
+                </div>
             </div>
         </nav>
     )
 }
 
-function SettingMenu () {
+function ModeSetting (props) {
+
+    const { state, dispatch } = useContext(TokenizerContext);
+
+    return (
+        <div id='mode-menu-wrapper'>
+            <button type='button' 
+                onClick={() => dispatch({type: ACTION.MODE.SPACE})}
+            >space</button>
+            <button type='button'
+                onClick={() => dispatch({type: ACTION.MODE.LINE})}
+            >line</button>
+        </div>
+    )
+}
+
+function GeneralSetting () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { settingMenuOpen } = state;
