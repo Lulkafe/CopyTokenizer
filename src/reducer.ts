@@ -8,14 +8,13 @@ export interface TokenConfig {
 }
 
 export const initState = {
-    input: [], 
-    originalInputText: '',
+    input: [],               //User input splited by lines
+    originalInputText: '',   //Original user input text as is (string)
     processType: Process.perWord,
     removedChars: '',
-    colorToken: true, 
-    removeColor: true,
-    settingMenuOpen: false,
-    displayInput: true 
+    colorToken: true,
+    settingMenuOpen: false,      
+    displayInput: false      //True: show Input field. False: Output field
 }
 
 export const ACTION = {
@@ -105,8 +104,7 @@ export const TokenizerReducer = (state, action) => {
             return {
                 ...state,
                 removedChars: action.settings.removedChars,
-                colorToken: action.settings.colorToken, 
-                removeColor: action.settings.removeColor
+                colorToken: action.settings.colorToken
             }
         }
     }

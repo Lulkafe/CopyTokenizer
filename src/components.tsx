@@ -157,7 +157,7 @@ function Content (props) {
             <div id='content-wrapper'>
                 { displayInput? 
                     <InputArea defaultText={originalInputText}/> : 
-                    <OutputArea/>}
+                    <OutputArea isMobile={true}/>}
                 <div id='display-toggle-btn-wrapper'>
                     {/* Toggle Input/Output. should be replaced later/*/}
                     <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>
@@ -200,8 +200,8 @@ function InputArea (props) {
     )
 }
 
-function OutputArea () {
-
+function OutputArea (props) {
+    const isMobile = props.isMobile || false;
     const { state } = useContext(TokenizerContext);
     const { input, processType, removedChars, colorToken } = state;
     let config: TokenConfig = {
@@ -212,6 +212,11 @@ function OutputArea () {
 
     return (
         <div id='output-area-wrapper'>
+            { isMobile && (
+                <div id='output-area__mode-setting-wrapper'>
+                    <ModeSetting/>
+                </div>
+            )}
             <p id='output-area__header'>Output</p>
             <div id='output-area'>
                     { linesToElements(input, config) }
