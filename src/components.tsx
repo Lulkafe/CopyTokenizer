@@ -11,18 +11,19 @@ export default function App () {
     const [state, dispatch] = useReducer(TokenizerReducer, initState);
     const isMobile = useMediaQuery({ query: '(max-width: 601px)'});
 
-
     return (
         <div>
             <TokenizerContext.Provider value ={{state, dispatch}}>
-                <Header />
+                <Header isMobile={isMobile}/>
                 <Content isMobile={isMobile}/>
             </TokenizerContext.Provider>
         </div>
     )
 }
 
-function Header () {
+function Header (props) {
+
+    const isNotMobile = !props.isMobile;
 
     return (
         <nav id='nav-bar'>
@@ -32,7 +33,7 @@ function Header () {
                 <button type='button'>Icon</button>
 
                 <div id='menu-wrapper'>
-                    <ModeSetting/>
+                    { isNotMobile && <ModeSetting/>}
                     <GeneralSetting/>
                 </div>
             </div>
@@ -191,8 +192,10 @@ function InputArea (props) {
             <div id='clear-btn-container'>
                 <button type='button' onClick={onClick}>X</button>
             </div>
+            <p id='input-area__header'>Input</p>
             <textarea id='input-area' onInput={onInput}
-                defaultValue={defaultText}></textarea>
+                defaultValue={defaultText}>
+            </textarea>
         </div>
     )
 }
@@ -208,8 +211,11 @@ function OutputArea () {
     }
 
     return (
-        <div id='output-area'>
-                { linesToElements(input, config) }
+        <div id='output-area-wrapper'>
+            <p id='output-area__header'>Output</p>
+            <div id='output-area'>
+                    { linesToElements(input, config) }
+            </div>
         </div> 
     )
 }
