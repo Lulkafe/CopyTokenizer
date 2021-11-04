@@ -3,6 +3,7 @@ import { useReducer, useContext, createContext, useEffect } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
+import SettingIcon from './image/setting_icon.png';
 
 const TokenizerContext = createContext(undefined);
 
@@ -68,8 +69,9 @@ function GeneralSetting () {
     return (
         <div id='setting-component-wrapper'>
             {/* TODO: This button element is temporary.
-                will replace with a setting icon later */}
-            <button type='button' onClick={onClickSettingIcon}>Open</button>
+                will replace with a setting icon later 
+            <button type='button' onClick={onClickSettingIcon}>Open</button>*/}
+            <img src={SettingIcon} id='setting-icon' onClick={onClickSettingIcon}/>
             { settingMenuOpen && <SettingWindow/>}
         </div>
     )
@@ -177,13 +179,15 @@ function InputArea (props) {
 
     const { dispatch } = useContext(TokenizerContext);
     const defaultText = props.defaultText;
+    const placeholder = `Enter your text here.\n\nThe corresponding tokens are generated in the output field, and you can copy the token text by clicking or tapping on it.\n\nYou can select how to split the original input into tokens: by whitespaces or lines`;
     const onInput = () => {
         const value = (document.getElementById
             ('input-area') as HTMLInputElement).value;
         dispatch({type: ACTION.INPUT.UPDATE, value});
     }
     const onClick = () => {
-        (document.getElementById('input-area') as HTMLInputElement).value = '';
+        (document.getElementById
+            ('input-area') as HTMLInputElement).value = '';
         dispatch({type: ACTION.INPUT.CLEAR});
     }
 
@@ -193,7 +197,9 @@ function InputArea (props) {
                 <button type='button' onClick={onClick}>X</button>
             </div>
             <p id='input-area__header'>Input</p>
-            <textarea id='input-area' onInput={onInput}
+            <textarea id='input-area' 
+                onInput={onInput}
+                placeholder={placeholder}
                 defaultValue={defaultText}>
             </textarea>
         </div>
