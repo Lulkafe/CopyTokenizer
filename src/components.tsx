@@ -3,7 +3,12 @@ import { useReducer, useContext, createContext, useEffect } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
+
 import SettingIcon from './image/setting_icon.png';
+import SwitchIcon from './image/arrows.png';
+import ClearIcon from './image/clear_icon.png';
+import LineModeIcon from './image/line_mode_icon.png';
+import WordModeIcon from './image/word_mode_icon.png';
 
 const TokenizerContext = createContext(undefined);
 
@@ -68,9 +73,6 @@ function GeneralSetting () {
     
     return (
         <div id='setting-component-wrapper'>
-            {/* TODO: This button element is temporary.
-                will replace with a setting icon later 
-            <button type='button' onClick={onClickSettingIcon}>Open</button>*/}
             <img src={SettingIcon} id='setting-icon' onClick={onClickSettingIcon}/>
             { settingMenuOpen && <SettingWindow/>}
         </div>
@@ -153,16 +155,16 @@ function Content (props) {
         dispatch({type: ACTION.DISPLAY.TOGGLE})
     }
     
-
     if (isMobile)
         return (
             <div id='content-wrapper'>
                 { displayInput? 
                     <InputArea defaultText={originalInputText}/> : 
                     <OutputArea isMobile={true}/>}
-                <div id='display-toggle-btn-wrapper'>
-                    {/* Toggle Input/Output. should be replaced later/*/}
-                    <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>
+                <div id='display-toggle-icon-wrapper'>
+                    {/* Toggle Input/Output. should be replaced later
+                    <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>*/}
+                    <img id='display-toggle-icon' src={SwitchIcon} onClick={onClick} alt='Toggle icon'/>
                 </div>
             </div> 
         )
@@ -194,7 +196,7 @@ function InputArea (props) {
     return (
         <div id='input-area-wrapper'>
             <div id='clear-btn-container'>
-                <button type='button' onClick={onClick}>X</button>
+                <img id='clear-button' src={ClearIcon} onClick={onClick} alt='Clear icon'/>
             </div>
             <p id='input-area__header'>Input</p>
             <textarea id='input-area' 

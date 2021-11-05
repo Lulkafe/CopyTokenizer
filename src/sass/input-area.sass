@@ -1,10 +1,18 @@
 $clear-btn-width: 30px
 
+#clear-button
+    z-index: 255
+    cursor: pointer
+    opacity: 90%
+
+#clear-button:hover
+    opacity: 70%
+
 #clear-btn-container
- position: absolute
- text-align: right
- top: 25px
- left: calc(100% - $clear-btn-width - 10px) 
+    position: absolute
+    text-align: right
+    top: 25px
+    left: calc(100% - $clear-btn-width - 10px) 
 
 #input-area
     font-size: 1.2rem
