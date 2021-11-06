@@ -49,16 +49,25 @@ function Header (props) {
 
 function ModeSetting (props) {
 
-    const { state, dispatch } = useContext(TokenizerContext);
+    const isMobile = props.isMobile || false;
+    const { dispatch } = useContext(TokenizerContext);
+    const onClickWordIcon = () => dispatch({type: ACTION.MODE.SPACE});
+    const onClickLineIcon = () => dispatch({type: ACTION.MODE.LINE});
 
     return (
         <div id='mode-menu-wrapper'>
-            <button type='button' 
-                onClick={() => dispatch({type: ACTION.MODE.SPACE})}
-            >space</button>
-            <button type='button'
-                onClick={() => dispatch({type: ACTION.MODE.LINE})}
-            >line</button>
+           <div className='mode-setting-button' id='word-icon-wrapper' onClick={onClickWordIcon}>
+               <div className='mode-setting-button__content-wrapper'>
+                    <img id='word-icon' src={WordModeIcon} />
+                    <span>space</span>
+                </div>
+           </div>
+           <div className='mode-setting-button' id='line-icon-wrapper' onClick={onClickLineIcon}>
+                <div className='mode-setting-button__content-wrapper'>
+                    <img id='line-icon' src={LineModeIcon} />
+                    <span>line</span>
+                </div>
+           </div>
         </div>
     )
 }
@@ -157,7 +166,7 @@ function Content (props) {
     
     if (isMobile)
         return (
-            <div id='content-wrapper'>
+            <main id='content-wrapper'>
                 { displayInput? 
                     <InputArea defaultText={originalInputText}/> : 
                     <OutputArea isMobile={true}/>}
@@ -166,14 +175,14 @@ function Content (props) {
                     <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>*/}
                     <img id='display-toggle-icon' src={SwitchIcon} onClick={onClick} alt='Toggle icon'/>
                 </div>
-            </div> 
+            </main> 
         )
     else 
         return (
-        <div id='content-wrapper'>
+        <main id='content-wrapper'>
             <InputArea/>
             <OutputArea/>
-        </div>
+        </main>
         )
 }
 
