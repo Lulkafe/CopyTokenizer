@@ -4,11 +4,13 @@ import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
 
+import SiteIcon from './image/site_icon.png';
 import SettingIcon from './image/setting_icon.png';
 import SwitchIcon from './image/arrows.png';
 import ClearIcon from './image/clear_icon.png';
 import LineModeIcon from './image/line_mode_icon.png';
 import WordModeIcon from './image/word_mode_icon.png';
+import { Process } from "./enum";
 
 const TokenizerContext = createContext(undefined);
 
@@ -34,9 +36,7 @@ function Header (props) {
     return (
         <nav id='nav-bar'>
             <div id='nav-bar-wrapper'>
-                {/* This Icon is temporary.
-                    Will replace with a setting icon later */}
-                <button type='button'>Icon</button>
+                <img src={SiteIcon} id='site-logo'/>
 
                 <div id='menu-wrapper'>
                     { isNotMobile && <ModeSetting/>}
@@ -49,7 +49,8 @@ function Header (props) {
 
 function ModeSetting (props) {
     const isMobile = props.isMobile || false;
-    const { dispatch } = useContext(TokenizerContext);
+    const { state, dispatch } = useContext(TokenizerContext);
+    const { processType }= state;
     const onClickWordIcon = () => dispatch({type: ACTION.MODE.SPACE});
     const onClickLineIcon = () => dispatch({type: ACTION.MODE.LINE});
 
@@ -63,17 +64,21 @@ function ModeSetting (props) {
     else
         return (
             <div id='mode-icon-wrapper--desktop'>
-                <div className='mode-setting-button' id='word-icon-wrapper' onClick={onClickWordIcon}>
+                <div className={'mode-setting-button' + 
+                    (processType === Process.perWord? '' : ' mode-setting-button--grayout')} 
+                    id='word-icon-wrapper' onClick={onClickWordIcon}>
                     <div className='mode-setting-button__content-wrapper'>
-                            <img id='word-icon' src={WordModeIcon} />
-                            <span>space</span>
-                        </div>
+                        <img id='word-icon' src={WordModeIcon} />
+                        <span>space</span>
+                    </div>
                 </div>
-                <div className='mode-setting-button' id='line-icon-wrapper' onClick={onClickLineIcon}>
-                        <div className='mode-setting-button__content-wrapper'>
-                            <img id='line-icon' src={LineModeIcon} />
-                            <span>line</span>
-                        </div>
+                <div className={'mode-setting-button' +
+                    (processType === Process.perLine? '' : ' mode-setting-button--grayout')}
+                    id='line-icon-wrapper' onClick={onClickLineIcon}>
+                    <div className='mode-setting-button__content-wrapper'>
+                        <img id='line-icon' src={LineModeIcon} />
+                        <span>line</span>
+                    </div>
                 </div>
             </div>
         )
