@@ -56,14 +56,23 @@ function ModeSetting (props) {
 
     if (isMobile)
         return(
-            <div id='mode-icon-wrapper--mobile'>
-                <img id='word-icon' src={WordModeIcon} />
-                <img id='line-icon' src={LineModeIcon} />
+            <div id='mode-icon-wrapper'>
+                <div className={'mode-setting-button' + 
+                    (processType === Process.perWord? '' : ' mode-setting-button--grayout')} 
+                    id='word-icon-wrapper' onClick={onClickWordIcon}>
+                    <img id='word-icon' src={WordModeIcon} />
+                </div>
+                <div className={'mode-setting-button' +
+                    (processType === Process.perLine? '' : ' mode-setting-button--grayout')}
+                    id='line-icon-wrapper' onClick={onClickLineIcon}>
+                    <img id='line-icon' src={LineModeIcon} />
+                </div>
+               
             </div>
         )
     else
         return (
-            <div id='mode-icon-wrapper--desktop'>
+            <div id='mode-icon-wrapper'>
                 <div className={'mode-setting-button' + 
                     (processType === Process.perWord? '' : ' mode-setting-button--grayout')} 
                     id='word-icon-wrapper' onClick={onClickWordIcon}>
@@ -104,7 +113,7 @@ function SettingWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { colorToken, removedChars } = state;
-    const onClickCancel = () => {
+    const onClickCancelButton = () => {
         dispatch({ type: ACTION.SETTING.CLOSE });
     }
     const onSubmit = (e) => {
@@ -139,7 +148,7 @@ function SettingWindow () {
                         <br/>
                     </div>
                     <div className='setting-window__item-wrapper'>
-                        <li>Enter characters you don't want to include 
+                        <li>Type characters you don't want to include 
                             in output tokens. (These will be converted into spaces)</li>
                         <input type='text' 
                             id='setting-window__user-input' 
@@ -151,7 +160,7 @@ function SettingWindow () {
                     <div className='setting-window__btn-wrapper'>
                         <button type='button' 
                             id='setting-window__cancel-button'
-                            onClick={onClickCancel}>Cancel</button>
+                            onClick={onClickCancelButton}>Cancel</button>
                         <button type='submit'
                             id='setting-window__save-button'>Save</button>
                     </div>
@@ -166,7 +175,7 @@ function Content (props) {
     const { isMobile } = props;
     const { state, dispatch } = useContext(TokenizerContext);
     const { displayInput, originalInputText } = state;
-    const onClick = () => {
+    const onClickToggleButton = () => {
         if(displayInput) {
             const value = (document.getElementById
                 ('input-area') as HTMLInputElement).value;
@@ -183,7 +192,7 @@ function Content (props) {
                     <InputArea defaultText={originalInputText}/> : 
                     <OutputArea isMobile={true}/>}
                 <div id='display-toggle-icon-wrapper'>
-                    <img id='display-toggle-icon' src={SwitchIcon} onClick={onClick} alt='Toggle icon'/>
+                    <img id='display-toggle-icon' src={SwitchIcon} onClick={onClickToggleButton} alt='Toggle icon'/>
                 </div>
             </main> 
         )
@@ -206,7 +215,7 @@ function InputArea (props) {
             ('input-area') as HTMLInputElement).value;
         dispatch({type: ACTION.INPUT.UPDATE, value});
     }
-    const onClick = () => {
+    const onClickClearButton = () => {
         (document.getElementById
             ('input-area') as HTMLInputElement).value = '';
         dispatch({type: ACTION.INPUT.CLEAR});
@@ -215,7 +224,7 @@ function InputArea (props) {
     return (
         <div id='input-area-wrapper'>
             <div id='clear-btn-container'>
-                <img id='clear-button' src={ClearIcon} onClick={onClick} alt='Clear icon'/>
+                <img id='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
             </div>
             <p id='input-area__header'>Input</p>
             <textarea id='input-area' 
