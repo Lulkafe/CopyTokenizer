@@ -48,28 +48,35 @@ function Header (props) {
 }
 
 function ModeSetting (props) {
-
     const isMobile = props.isMobile || false;
     const { dispatch } = useContext(TokenizerContext);
     const onClickWordIcon = () => dispatch({type: ACTION.MODE.SPACE});
     const onClickLineIcon = () => dispatch({type: ACTION.MODE.LINE});
 
-    return (
-        <div id='mode-menu-wrapper'>
-           <div className='mode-setting-button' id='word-icon-wrapper' onClick={onClickWordIcon}>
-               <div className='mode-setting-button__content-wrapper'>
-                    <img id='word-icon' src={WordModeIcon} />
-                    <span>space</span>
+    if (isMobile)
+        return(
+            <div id='mode-icon-wrapper--mobile'>
+                <img id='word-icon' src={WordModeIcon} />
+                <img id='line-icon' src={LineModeIcon} />
+            </div>
+        )
+    else
+        return (
+            <div id='mode-icon-wrapper--desktop'>
+                <div className='mode-setting-button' id='word-icon-wrapper' onClick={onClickWordIcon}>
+                    <div className='mode-setting-button__content-wrapper'>
+                            <img id='word-icon' src={WordModeIcon} />
+                            <span>space</span>
+                        </div>
                 </div>
-           </div>
-           <div className='mode-setting-button' id='line-icon-wrapper' onClick={onClickLineIcon}>
-                <div className='mode-setting-button__content-wrapper'>
-                    <img id='line-icon' src={LineModeIcon} />
-                    <span>line</span>
+                <div className='mode-setting-button' id='line-icon-wrapper' onClick={onClickLineIcon}>
+                        <div className='mode-setting-button__content-wrapper'>
+                            <img id='line-icon' src={LineModeIcon} />
+                            <span>line</span>
+                        </div>
                 </div>
-           </div>
-        </div>
-    )
+            </div>
+        )
 }
 
 function GeneralSetting () {
@@ -171,18 +178,16 @@ function Content (props) {
                     <InputArea defaultText={originalInputText}/> : 
                     <OutputArea isMobile={true}/>}
                 <div id='display-toggle-icon-wrapper'>
-                    {/* Toggle Input/Output. should be replaced later
-                    <button type='button' id='display-toggle-btn' onClick={onClick}>SW</button>*/}
                     <img id='display-toggle-icon' src={SwitchIcon} onClick={onClick} alt='Toggle icon'/>
                 </div>
             </main> 
         )
-    else 
+    else
         return (
-        <main id='content-wrapper'>
-            <InputArea/>
-            <OutputArea/>
-        </main>
+            <main id='content-wrapper'>
+                <InputArea/>
+                <OutputArea/>
+            </main>
         )
 }
 
@@ -231,7 +236,7 @@ function OutputArea (props) {
         <div id='output-area-wrapper'>
             { isMobile && (
                 <div id='output-area__mode-setting-wrapper'>
-                    <ModeSetting/>
+                    <ModeSetting isMobile={true}/>
                 </div>
             )}
             <p id='output-area__header'>Output</p>
