@@ -13,7 +13,7 @@ export const initState = {
     processType: Process.perWord,
     removedChars: '',
     colorToken: true,
-    settingMenuOpen: false,      
+    settingMenuOpen: true,      
     displayInput: false      //True: show Input field. False: Output field
 }
 
