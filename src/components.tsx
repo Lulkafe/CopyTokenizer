@@ -31,15 +31,18 @@ export default function App () {
 
 function Header (props) {
 
-    const isNotMobile = !props.isMobile;
+    const isMobile = props.isMobile;
+    const DummyNavItem = () => 
+        <span id='nav-bar__dummy-item'></span>
 
     return (
         <nav id='nav-bar'>
             <div id='nav-bar-wrapper'>
+                { isMobile && <DummyNavItem /> }
                 <img src={SiteIcon} id='site-logo'/>
 
                 <div id='menu-wrapper'>
-                    { isNotMobile && <ModeSetting/>}
+                    { isMobile === false && <ModeSetting/>}
                     <GeneralSetting/>
                 </div>
             </div>
