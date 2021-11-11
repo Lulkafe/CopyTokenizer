@@ -32,6 +32,9 @@ export default function App () {
 function Header (props) {
 
     const isMobile = props.isMobile;
+
+    //Used to align the site icon to center,
+    //and the setting icon to the right
     const DummyNavItem = () => 
         <span id='nav-bar__dummy-item'></span>
 
