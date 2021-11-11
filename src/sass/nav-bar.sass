@@ -30,19 +30,45 @@
 
 #setting-window
     position: absolute
+    top: 55px
     left: -235px
     width: 300px
     height: 300px
-    padding: 16px 16px 0 16px
     z-index: 255
     background-color: #EEEEEE
     border: 1px solid #979797
-    overflow: scroll
     border-radius: 2px
     text-align: left
 
+#setting-window form
+    padding: 16px 16px 0 16px
+    position: relative
+
+/* To draw the border of the arrow of the tooltip */
+#setting-window form::before
+    content: ""
+    position: absolute
+    border: solid 16.5px
+    z-index: 254
+    display: inline-block
+    bottom: 100%
+    left: 84.0%
+    border-color: transparent transparent #979797 transparent
+
+/* To draw the arrow of the tooltip */
+#setting-window form::after
+    content: ""
+    position: absolute
+    border: solid 15.2px
+    z-index: 255
+    display: inline-block
+    bottom: 100%
+    left: 84.3%
+    border-color: transparent transparent #EEEEEE transparent
+
+
 .setting-window__btn-wrapper
-    margin-top: 30px
+    margin-top: 50px
     text-align: right
 
 .setting-window__btn-wrapper button
@@ -63,6 +89,7 @@
 
 #setting-window__save-button
     background: #69A5FF
+    border: 1px solid #507fc6
     margin-left: 4px
     color: white
 
@@ -71,6 +98,7 @@
 
 #setting-window ul
     padding-left: 20px
+    margin: 0
 
 #setting-window__user-input
     margin-top: 10px
