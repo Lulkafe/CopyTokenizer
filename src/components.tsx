@@ -108,9 +108,13 @@ function GeneralSetting () {
     }
     
     return (
-        <div id='setting-component-wrapper' onClick={onClickSettingIcon}>
-            <img src={SettingIcon} id='setting-icon' />
-            { settingMenuOpen && <SettingWindow/>}
+        <div>
+            <div id='setting-icon-wrapper' onClick={onClickSettingIcon}>
+                <img src={SettingIcon} id='setting-icon' />
+            </div>
+            <div id='setting-window-wrapper'>
+                { settingMenuOpen && <SettingWindow/>}
+            </div>
         </div>
     )
 }
