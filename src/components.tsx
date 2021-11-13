@@ -108,8 +108,8 @@ function GeneralSetting () {
     }
     
     return (
-        <div id='setting-component-wrapper'>
-            <img src={SettingIcon} id='setting-icon' onClick={onClickSettingIcon}/>
+        <div id='setting-component-wrapper' onClick={onClickSettingIcon}>
+            <img src={SettingIcon} id='setting-icon' />
             { settingMenuOpen && <SettingWindow/>}
         </div>
     )
@@ -163,14 +163,14 @@ function SettingWindow () {
                             name='removedChars'>
                         </input>
                     </div>
-                    <div className='setting-window__btn-wrapper'>
+                </ul>
+                <div className='setting-window__btn-wrapper'>
                         <button type='button' 
                             id='setting-window__cancel-button'
                             onClick={onClickCancelButton}>Cancel</button>
                         <button type='submit'
                             id='setting-window__save-button'>Save</button>
-                    </div>
-                </ul>
+                </div>
             </form>
         </div>
     )
