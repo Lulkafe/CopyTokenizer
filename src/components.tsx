@@ -18,10 +18,15 @@ export default function App () {
 
     const [state, dispatch] = useReducer(TokenizerReducer, initState);
     const isMobile = useMediaQuery({ query: '(max-width: 601px)'});
+    const onClick = (e) => {
+        if (!e.target.closest('#setting-window'))
+           dispatch({ type: ACTION.SETTING.CLOSE });
+    }
+
 
     return (
-        <div>
-            <TokenizerContext.Provider value ={{state, dispatch}}>
+        <div onClick={onClick}>
+            <TokenizerContext.Provider value={{state, dispatch}}>
                 <Header isMobile={isMobile}/>
                 <Content isMobile={isMobile}/>
             </TokenizerContext.Provider>
@@ -103,7 +108,8 @@ function GeneralSetting () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { settingMenuOpen } = state;
-    const onClickSettingIcon = () => {
+    const onClickSettingIcon = (e) => {
+        e.stopPropagation();
         dispatch({ type: ACTION.SETTING.TOGGLE_DISPLAY });
     }
     
@@ -123,11 +129,13 @@ function SettingWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { colorToken, removedChars } = state;
-    const onClickCancelButton = () => {
+    const onClickCancelButton = (e) => {
+        e.stopPropagation();
         dispatch({ type: ACTION.SETTING.CLOSE });
     }
     const onSubmit = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const settings = {
             colorToken: e.target.token_clicked.value === 'on',
             removedChars: e.target.removedChars.value
@@ -186,6 +194,7 @@ function Content (props) {
     const { state, dispatch } = useContext(TokenizerContext);
     const { displayInput, originalInputText } = state;
     const onClickToggleButton = () => {
+
         if(displayInput) {
             const value = (document.getElementById
                 ('input-area') as HTMLInputElement).value;
