@@ -47,7 +47,9 @@ function Header (props) {
         <nav id='nav-bar'>
             <div id='nav-bar-wrapper'>
                 { isMobile && <DummyNavItem /> }
-                <img src={SiteIcon} id='site-logo'/>
+                <div className='site-logo__wrapper'>
+                    <img src={SiteIcon} id='site-logo'/>
+                </div>
 
                 <div id='menu-wrapper'>
                     { isMobile === false && <ModeSetting/>}
@@ -193,7 +195,9 @@ function Content (props) {
     const { isMobile } = props;
     const { state, dispatch } = useContext(TokenizerContext);
     const { displayInput, originalInputText } = state;
-    const onClickToggleButton = () => {
+    const onClickToggleButton = (e) => {
+
+        e.stopPropagation();
 
         if(displayInput) {
             const value = (document.getElementById
