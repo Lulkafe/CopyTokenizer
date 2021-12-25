@@ -151,7 +151,7 @@ function SettingWindow () {
             <form onSubmit={onSubmit}>
                 <ul>
                     <div className='setting-window__item-wrapper'>
-                        <li>Grayout clicked tokens </li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span>Grayout clicked tokens </li>
                         <input 
                             type='radio' name='token_clicked' 
                             id='setting-window__radio-color--yes' 
@@ -168,8 +168,8 @@ function SettingWindow () {
                         <br/>
                     </div>
                     <div className='setting-window__item-wrapper'>
-                        <li>Type characters you don't want to include 
-                            in output tokens. (These will be converted into spaces)</li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span>Enter characters you want to exclude 
+                            from output tokens (converted into whitespaces)</li>
                         <input type='text' 
                             id='setting-window__user-input' 
                             placeholder='e.g. ,.-()[]' 

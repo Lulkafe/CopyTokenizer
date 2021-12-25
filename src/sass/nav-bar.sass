@@ -1,7 +1,7 @@
 #nav-bar
     width: 100%
-    height: 57px
-    background: #CBD6EF
+    height: 50px
+    background: #a6b9e3
     display: flex
     justify-content: center
     
@@ -29,14 +29,14 @@
 
 #setting-window-wrapper
     display: inline-block
-    position: relative
+    position: relative 
 
 #setting-window
     position: absolute
     top: 23px
     left: -285px
-    width: 280px
-    height: 300px
+    max-width: 280px
+    min-width: 200px
     z-index: 255
     background-color: #EEEEEE
     border: 1px solid #979797
@@ -46,7 +46,7 @@
     box-shadow: 0px 5px 10px 2px rgba(0,0,0,0.24)
 
 #setting-window form
-    padding: 16px 16px 0 16px
+    padding: 16px 16px 16px 16px
     position: relative
 
 /* To draw the border  of the arrow of the tooltip */
@@ -82,14 +82,21 @@
     border-radius: 2px
     font-size:16px
 
+.setting-window__item-dot
+    color: #a6b9e3
+
+
 .setting-window__item-wrapper
     margin-bottom: 15px
+    background: white
+    padding: 8px
+    border-radius: 4px
 
 .setting-window__item-wrapper label
     margin-left: 5px
 
 .setting-window__item-wrapper input[type='radio']
-    margin-top: 6px
+    margin-top: 4px
 
 #setting-window__save-button
     background: #69A5FF
@@ -101,12 +108,13 @@
     background: white
 
 #setting-window ul
-    padding-left: 20px
+    padding-left: 0
+    list-style-type: none
     margin: 0
 
 #setting-window__user-input
     margin-top: 10px
-    width: 90%
+    width: 100%
     height: 37px
     font-size: 18px
 
