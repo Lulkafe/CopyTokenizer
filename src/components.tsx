@@ -222,7 +222,7 @@ function Content (props) {
     else
         return (
             <main id='content-wrapper'>
-                <InputArea/>
+                <InputArea defaultText={originalInputText}/>
                 <OutputArea/>
             </main>
         )

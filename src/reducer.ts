@@ -48,7 +48,8 @@ export const TokenizerReducer = (state, action) => {
         case ACTION.INPUT.UPDATE:
             return {
                 ...state,
-                input: textToLines(action.value)
+                input: textToLines(action.value),
+                originalInputText: action.value
             };
         
         case ACTION.INPUT.CLEAR:
