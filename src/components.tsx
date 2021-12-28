@@ -10,7 +10,9 @@ import SwitchIcon from './image/arrows.png';
 import ClearIcon from './image/clear_icon.png';
 import LineModeIcon from './image/line_mode_icon.png';
 import WordModeIcon from './image/word_mode_icon.png';
+import GithubIcon from './image/GitHub-Mark-64px.png';
 import { Process } from "./enum";
+import { placeholderText } from "./input-placeholder";
 
 const TokenizerContext = createContext(undefined);
 
@@ -50,15 +52,27 @@ function Header (props) {
                 <div className='site-logo__wrapper'>
                     <img src={SiteIcon} id='site-logo'/>
                 </div>
-
                 <div id='menu-wrapper'>
                     { isMobile === false && <ModeSetting/>}
+                    { isMobile === false && <GitHubLinkTab/>}   
                     <GeneralSetting/>
                 </div>
             </div>
         </nav>
     )
 }
+
+function GitHubLinkTab () {
+    return (
+        <div className='menu__GitHub-icon-wrapper'>
+            <a className='menu__GitHub-icon-anc'href={'https://github.com/Lulkafe/CopyableTokenizer'}>
+                <img className='menu__GitHub-icon-img' src={GithubIcon} />
+            </a>
+        </div>
+    )
+}
+
+
 
 function ModeSetting (props) {
     const isMobile = props.isMobile || false;
@@ -232,7 +246,7 @@ function InputArea (props) {
 
     const { dispatch } = useContext(TokenizerContext);
     const defaultText = props.defaultText;
-    const placeholder = `Enter your text here.\n\nThe corresponding tokens are generated in the output field, and you can copy the token text by clicking or tapping on it.\n\nYou can select how to split the original input into tokens: by whitespaces or lines`;
+    const placeholder = placeholderText;
     const onInput = () => {
         const value = (document.getElementById
             ('input-area') as HTMLInputElement).value;

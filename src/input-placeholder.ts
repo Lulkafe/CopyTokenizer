@@ -1,0 +1,1 @@
+export const placeholderText = `Enter your text here. The corresponding tokens will be generated in the output field, and you can click or tap on the token to copy the text. You can choose how to generate tokens from the input: split by whitespaces or line breaks.`;
