@@ -43,17 +43,17 @@ function Header (props) {
     //Used to align the site icon to center,
     //and the setting icon to the right
     const DummyNavItem = () => 
-        <span id='nav-bar__dummy-item'></span>
+        <span className='nav-bar__dummy-item'></span>
 
     return (
-        <nav id='nav-bar'>
-            <div id='nav-bar-wrapper'>
+        <nav className='nav-bar'>
+            <div className='nav-bar__wrapper'>
                 { isMobile && <DummyNavItem /> }
-                <div className='site-logo__wrapper'>
-                    <img src={SiteIcon} id='site-logo'/>
+                <div className='nav-bar__site-logo-wrapper'>
+                    <img src={SiteIcon} className='nav-bar__site-logo'/>
                 </div>
-                <div id='menu-wrapper'>
-                    { isMobile === false && <ModeSetting/>}
+                <div className='nav-bar__menu-wrapper'>
+                    { isMobile === false && <ModeSettings/>}
                     { isMobile === false && <GitHubLinkTab/>}   
                     <GeneralSetting/>
                 </div>
@@ -64,9 +64,9 @@ function Header (props) {
 
 function GitHubLinkTab () {
     return (
-        <div className='menu__GitHub-icon-wrapper'>
-            <a className='menu__GitHub-icon-anc'href={'https://github.com/Lulkafe/CopyableTokenizer'}>
-                <img className='menu__GitHub-icon-img' src={GithubIcon} />
+        <div className='nav-bar__GitHub-icon-wrapper'>
+            <a className='nav-bar__GitHub-icon-anc' href={'https://github.com/Lulkafe/CopyableTokenizer'}>
+                <img className='nav-bar__GitHub-icon-img' src={GithubIcon} />
             </a>
         </div>
     )
@@ -74,50 +74,45 @@ function GitHubLinkTab () {
 
 
 
-function ModeSetting (props) {
+function ModeSettings (props) {
+
     const isMobile = props.isMobile || false;
     const { state, dispatch } = useContext(TokenizerContext);
     const { processType }= state;
     const onClickWordIcon = () => dispatch({type: ACTION.MODE.SPACE});
     const onClickLineIcon = () => dispatch({type: ACTION.MODE.LINE});
+    const WordImg = () => <img className='word-icon' src={WordModeIcon} />;
+    const LineImg = () => <img className='line-icon' src={LineModeIcon} />;
+    const getClass = (targetType: Process) => {
+        let cls = 'mode-setting-button';
+        const hl = 'mode-setting-button--grayout';
+        return processType === targetType? cls : cls + ' ' + hl;
+    }
+    const WordImgWithText = () => (
+        <div className='mode-setting-button__content-wrapper'>
+            <WordImg/>
+            <span>space</span>
+        </div>
+    );
+    const LineImgWithText = () => (
+        <div className='mode-setting-button__content-wrapper'>
+            <LineImg/>
+            <span>line</span>
+        </div>
+    );
 
-    if (isMobile)
-        return(
-            <div id='mode-icon-wrapper'>
-                <div className={'mode-setting-button' + 
-                    (processType === Process.perWord? '' : ' mode-setting-button--grayout')} 
-                    id='word-icon-wrapper' onClick={onClickWordIcon}>
-                    <img id='word-icon' src={WordModeIcon} />
-                </div>
-                <div className={'mode-setting-button' +
-                    (processType === Process.perLine? '' : ' mode-setting-button--grayout')}
-                    id='line-icon-wrapper' onClick={onClickLineIcon}>
-                    <img id='line-icon' src={LineModeIcon} />
-                </div>
-               
+    return(
+        <div className='mode-icon__wrapper'>
+            <div className={getClass(Process.perWord)} 
+                id='word-icon-wrapper' onClick={onClickWordIcon}>
+                {isMobile? <WordImg/>:<WordImgWithText/>}             
             </div>
-        )
-    else
-        return (
-            <div id='mode-icon-wrapper'>
-                <div className={'mode-setting-button' + 
-                    (processType === Process.perWord? '' : ' mode-setting-button--grayout')} 
-                    id='word-icon-wrapper' onClick={onClickWordIcon}>
-                    <div className='mode-setting-button__content-wrapper'>
-                        <img id='word-icon' src={WordModeIcon} />
-                        <span>space</span>
-                    </div>
-                </div>
-                <div className={'mode-setting-button' +
-                    (processType === Process.perLine? '' : ' mode-setting-button--grayout')}
-                    id='line-icon-wrapper' onClick={onClickLineIcon}>
-                    <div className='mode-setting-button__content-wrapper'>
-                        <img id='line-icon' src={LineModeIcon} />
-                        <span>line</span>
-                    </div>
-                </div>
-            </div>
-        )
+            <div className={getClass(Process.perLine)}
+                id='line-icon-wrapper' onClick={onClickLineIcon}>
+                {isMobile? <LineImg/>:<LineImgWithText/>}
+            </div>     
+        </div>
+    )
 }
 
 function GeneralSetting () {
@@ -287,7 +282,7 @@ function OutputArea (props) {
         <div id='output-area-wrapper'>
             { isMobile && (
                 <div id='output-area__mode-setting-wrapper'>
-                    <ModeSetting isMobile={true}/>
+                    <ModeSettings isMobile={true}/>
                 </div>
             )}
             <p id='output-area__header'>Output</p>
