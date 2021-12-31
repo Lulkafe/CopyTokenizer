@@ -55,7 +55,7 @@ function Header (props) {
                 <div className='nav-bar__menu-wrapper'>
                     { isMobile === false && <ModeSettings/>}
                     { isMobile === false && <GitHubLinkTab/>}   
-                    <GeneralSetting/>
+                    <GeneralSettings/>
                 </div>
             </div>
         </nav>
@@ -115,7 +115,7 @@ function ModeSettings (props) {
     )
 }
 
-function GeneralSetting () {
+function GeneralSettings () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { settingMenuOpen } = state;
@@ -126,17 +126,17 @@ function GeneralSetting () {
     
     return (
         <div>
-            <div id='setting-icon-wrapper' onClick={onClickSettingIcon}>
-                <img src={SettingIcon} id='setting-icon' />
+            <div className='setting-icon__wrapper' onClick={onClickSettingIcon}>
+                <img src={SettingIcon} className='setting-icon' />
             </div>
-            <div id='setting-window-wrapper'>
-                { settingMenuOpen && <SettingWindow/>}
+            <div className='setting-window__wrapper'>
+                { settingMenuOpen && <SettingsWindow/>}
             </div>
         </div>
     )
 }
 
-function SettingWindow () {
+function SettingsWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
     const { colorToken, removedChars } = state;
@@ -146,7 +146,6 @@ function SettingWindow () {
     }
     const onSubmit = (e) => {
         e.preventDefault();
-        e.stopPropagation();
         const settings = {
             colorToken: e.target.token_clicked.value === 'on',
             removedChars: e.target.removedChars.value
@@ -189,10 +188,10 @@ function SettingWindow () {
                 </ul>
                 <div className='setting-window__btn-wrapper'>
                         <button type='button' 
-                            id='setting-window__cancel-button'
+                            className='setting-window__cancel-button'
                             onClick={onClickCancelButton}>Cancel</button>
                         <button type='submit'
-                            id='setting-window__save-button'>Save</button>
+                            className='setting-window__save-button'>Save</button>
                 </div>
             </form>
         </div>
@@ -208,6 +207,7 @@ function Content (props) {
 
         e.stopPropagation();
 
+        /* When switching to Output field, keep the input text in state */
         if(displayInput) {
             const value = (document.getElementById
                 ('input-area') as HTMLInputElement).value;
@@ -219,18 +219,20 @@ function Content (props) {
     
     if (isMobile)
         return (
-            <main id='content-wrapper'>
+            <main className='content-wrapper'>
+                {/* Only display input or output field on screen */}
                 { displayInput? 
-                    <InputArea defaultText={originalInputText}/> : 
-                    <OutputArea isMobile={true}/>}
-                <div id='display-toggle-icon-wrapper'>
-                    <img id='display-toggle-icon' src={SwitchIcon} onClick={onClickToggleButton} alt='Toggle icon'/>
+                    <InputArea defaultText={originalInputText}/> : <OutputArea isMobile={isMobile}/>}
+
+                {/* Clicable icon to toggle Input <=> Output field */}
+                <div className='display-toggle-icon-wrapper'>
+                    <img className='display-toggle-icon' src={SwitchIcon} onClick={onClickToggleButton} alt='Toggle icon'/>
                 </div>
             </main> 
         )
     else
         return (
-            <main id='content-wrapper'>
+            <main className='content-wrapper'>
                 <InputArea defaultText={originalInputText}/>
                 <OutputArea/>
             </main>
@@ -240,26 +242,27 @@ function Content (props) {
 function InputArea (props) {
 
     const { dispatch } = useContext(TokenizerContext);
-    const defaultText = props.defaultText;
-    const placeholder = placeholderText;
+    const defaultText: string = props.defaultText;
+    const placeholder: string = placeholderText;
+    const textAreaId: string = 'input-area'
     const onInput = () => {
-        const value = (document.getElementById
-            ('input-area') as HTMLInputElement).value;
+        const value: string = (document.getElementById
+            (textAreaId) as HTMLInputElement).value;
         dispatch({type: ACTION.INPUT.UPDATE, value});
     }
     const onClickClearButton = () => {
         (document.getElementById
-            ('input-area') as HTMLInputElement).value = '';
+            (textAreaId) as HTMLInputElement).value = '';
         dispatch({type: ACTION.INPUT.CLEAR});
     }
 
     return (
-        <div id='input-area-wrapper'>
-            <div id='clear-btn-container'>
-                <img id='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
+        <div className='input-area__wrapper'>
+            <div className='input-area__clear-button-container'>
+                <img className='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
             </div>
-            <p id='input-area__header'>Input</p>
-            <textarea id='input-area' 
+            <p className='input-area__header'>Input</p>
+            <textarea id={textAreaId}
                 onInput={onInput}
                 placeholder={placeholder}
                 defaultValue={defaultText}>
@@ -269,7 +272,7 @@ function InputArea (props) {
 }
 
 function OutputArea (props) {
-    const isMobile = props.isMobile || false;
+    const isMobile: boolean = props.isMobile || false;
     const { state } = useContext(TokenizerContext);
     const { input, processType, removedChars, colorToken } = state;
     let config: TokenConfig = {
@@ -279,14 +282,14 @@ function OutputArea (props) {
     }
 
     return (
-        <div id='output-area-wrapper'>
+        <div className='output-area__wrapper'>
             { isMobile && (
-                <div id='output-area__mode-setting-wrapper'>
+                <div className='output-area__mode-setting-wrapper'>
                     <ModeSettings isMobile={true}/>
                 </div>
             )}
-            <p id='output-area__header'>Output</p>
-            <div id='output-area'>
+            <p className='output-area__header'>Output</p>
+            <div className='output-area'>
                     { linesToElements(input, config) }
             </div>
         </div> 

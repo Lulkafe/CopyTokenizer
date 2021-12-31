@@ -37,7 +37,7 @@ function generateLineTokens (lines: string[], config: TokenConfig): ReactElement
                 if (removedChars) 
                 line = replaceCharsWithSpace(line, removedChars)
                 return (
-                    <p key={`sentence-${i}`}>
+                    <p className='output-area__paragraph' key={`sentence-${i}`}>
                         { line !== '' && generateToken(line, i)}
                     </p>)
             })}
@@ -62,7 +62,7 @@ function generateWordTokens (lines: string[], config: TokenConfig): ReactElement
 
                 const words = line.trim().split(' ').filter(v => v)
                 return (
-                    <p key={`line-${i}`}>
+                    <p className='output-area__paragraph' key={`line-${i}`}>
                         {words.map(word => 
                             word !== '' && createToken(word)
                         )}
