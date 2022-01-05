@@ -1,5 +1,5 @@
 # CopyableTokenizer
-This app generates tokens from user text. \
+This app generates word/line tokens from user text. \
 When the token is clicked/tapped, the text of the token is copied to clipboard.
 
 ## Motivation behind project
