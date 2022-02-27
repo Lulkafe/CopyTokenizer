@@ -9,14 +9,10 @@ export function textToLines (text: string): string[] {
 }
 
 export function linesToElements (lines: string[], config: TokenConfig): ReactElement {
-    const process = config.processType;
-    let elements = null;
-
-    if (process === Process.perLine)
-        elements = generateLineTokens(lines, config);
+    const elements = config.splitBySpace? 
+        generateWordTokens(lines, config): generateLineTokens(lines, config);
     
-    if (process === Process.perWord)
-        elements = generateWordTokens(lines, config);
+    console.log(elements);
 
     return elements;
 }

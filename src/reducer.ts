@@ -4,7 +4,8 @@ import { Process } from './enum';
 export interface TokenConfig {
     processType: Process
     removedChars: string
-    colorToken: boolean
+    colorToken: boolean,
+    splitBySpace: boolean
 }
 
 export const initState = {
@@ -13,6 +14,7 @@ export const initState = {
     processType: Process.perWord,
     removedChars: '',
     colorToken: true,
+    splitBySpace: true,
     settingMenuOpen: true,      
     displayInput: false      //True: show Input field. False: Output field
 }
@@ -105,7 +107,8 @@ export const TokenizerReducer = (state, action) => {
             return {
                 ...state,
                 removedChars: action.settings.removedChars,
-                colorToken: action.settings.colorToken
+                colorToken: action.settings.colorToken,
+                splitBySpace: action.settings.splitBySpace
             }
         }
     }

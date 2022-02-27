@@ -1,5 +1,5 @@
 import React from "react";
-import { useReducer, useContext, createContext, useEffect } from "react";
+import { useReducer, useContext, createContext } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
@@ -8,9 +8,6 @@ import SiteIcon from './image/site_icon.png';
 import SettingIcon from './image/setting_icon.png';
 import SwitchIcon from './image/arrows.png';
 import ClearIcon from './image/clear_icon.png';
-import LineModeIcon from './image/line_mode_icon.png';
-import WordModeIcon from './image/word_mode_icon.png';
-import GithubIcon from './image/GitHub-Mark-64px.png';
 import { Process } from "./enum";
 import { placeholderText } from "./input-placeholder";
 
@@ -24,7 +21,6 @@ export default function App () {
         if (!e.target.closest('#setting-window'))
            dispatch({ type: ACTION.SETTING.CLOSE });
     }
-
 
     return (
         <div onClick={onClick}>
@@ -53,65 +49,10 @@ function Header (props) {
                     <img src={SiteIcon} className='nav-bar__site-logo'/>
                 </div>
                 <div className='nav-bar__menu-wrapper'>
-                    { isMobile === false && <ModeSettings/>}
-                    { isMobile === false && <GitHubLinkTab/>}   
                     <GeneralSettings/>
                 </div>
             </div>
         </nav>
-    )
-}
-
-function GitHubLinkTab () {
-    return (
-        <div className='nav-bar__GitHub-icon-wrapper'>
-            <a className='nav-bar__GitHub-icon-anc' href={'https://github.com/Lulkafe/CopyableTokenizer'}>
-                <img className='nav-bar__GitHub-icon-img' src={GithubIcon} />
-            </a>
-        </div>
-    )
-}
-
-
-
-function ModeSettings (props) {
-
-    const isMobile = props.isMobile || false;
-    const { state, dispatch } = useContext(TokenizerContext);
-    const { processType }= state;
-    const onClickWordIcon = () => dispatch({type: ACTION.MODE.SPACE});
-    const onClickLineIcon = () => dispatch({type: ACTION.MODE.LINE});
-    const WordImg = () => <img className='word-icon' src={WordModeIcon} />;
-    const LineImg = () => <img className='line-icon' src={LineModeIcon} />;
-    const getClass = (targetType: Process) => {
-        let cls = 'mode-setting-button';
-        const hl = 'mode-setting-button--grayout';
-        return processType === targetType? cls : cls + ' ' + hl;
-    }
-    const WordImgWithText = () => (
-        <div className='mode-setting-button__content-wrapper'>
-            <WordImg/>
-            <span>space</span>
-        </div>
-    );
-    const LineImgWithText = () => (
-        <div className='mode-setting-button__content-wrapper'>
-            <LineImg/>
-            <span>line</span>
-        </div>
-    );
-
-    return(
-        <div className='mode-icon__wrapper'>
-            <div className={getClass(Process.perWord)} 
-                id='word-icon-wrapper' onClick={onClickWordIcon}>
-                {isMobile? <WordImg/>:<WordImgWithText/>}             
-            </div>
-            <div className={getClass(Process.perLine)}
-                id='line-icon-wrapper' onClick={onClickLineIcon}>
-                {isMobile? <LineImg/>:<LineImgWithText/>}
-            </div>     
-        </div>
     )
 }
 
@@ -139,7 +80,7 @@ function GeneralSettings () {
 function SettingsWindow () {
 
     const { state, dispatch } = useContext(TokenizerContext);
-    const { colorToken, removedChars } = state;
+    const { colorToken, removedChars, splitBySpace } = state;
     const onClickCancelButton = (e) => {
         e.stopPropagation();
         dispatch({ type: ACTION.SETTING.CLOSE });
@@ -147,6 +88,7 @@ function SettingsWindow () {
     const onSubmit = (e) => {
         e.preventDefault();
         const settings = {
+            splitBySpace: e.target.split_by.value === 'on',
             colorToken: e.target.token_clicked.value === 'on',
             removedChars: e.target.removedChars.value
         }
@@ -158,26 +100,44 @@ function SettingsWindow () {
         <div id='setting-window'> 
             <form onSubmit={onSubmit}>
                 <ul>
+                    {/* First setting - Split tokens by lines or whitespaces */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span>Grayout clicked tokens </li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Split tokens by...</span> </li>
+                        <input 
+                            type='radio' name='split_by' 
+                            defaultChecked={splitBySpace}
+                            value={'on'}/>
+                        <label htmlFor='setting-radio-color--yes'><span></span>Whitespaces</label>
+                        <br/>
+                        <input 
+                            type='radio' name='split_by' 
+                            defaultChecked={!splitBySpace}
+                            value={'off'}/>
+                        <label htmlFor='setting-window__radio-color--no'>New lines</label>
+                        <br/>
+                    </div>
+
+                    {/* Second setting - Gray-out or not */}
+                    <div className='setting-window__item-wrapper'>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Gray-outing clicked tokens</span></li>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='setting-window__radio-color--yes' 
                             defaultChecked={colorToken}
                             value={'on'}/>
                         <label htmlFor='setting-radio-color--yes'>On</label>
                         <br/>
                         <input 
                             type='radio' name='token_clicked' 
-                            id='setting-window__radio-color--no'
                             defaultChecked={!colorToken}
                             value={'off'}/>
                         <label htmlFor='setting-window__radio-color--no'>Off</label>
                         <br/>
                     </div>
+
+                    {/* Third setting - Excluding characters */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span>Enter characters you want to exclude 
-                            from output tokens (converted into whitespaces)</li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Enter characters you want to exclude 
+                            from output tokens (converted into whitespaces)</span></li>
                         <input type='text' 
                             id='setting-window__user-input' 
                             placeholder='e.g. ,.-()[]' 
@@ -261,7 +221,7 @@ function InputArea (props) {
             <div className='input-area__clear-button-container'>
                 <img className='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
             </div>
-            <p className='input-area__header'>Input</p>
+            <p className='input-area__header'>Your text</p>
             <textarea id={textAreaId}
                 onInput={onInput}
                 placeholder={placeholder}
@@ -272,23 +232,18 @@ function InputArea (props) {
 }
 
 function OutputArea (props) {
-    const isMobile: boolean = props.isMobile || false;
     const { state } = useContext(TokenizerContext);
-    const { input, processType, removedChars, colorToken } = state;
+    const { input, processType, removedChars, colorToken, splitBySpace } = state;
     let config: TokenConfig = {
         processType,
         removedChars,
-        colorToken
+        colorToken,
+        splitBySpace
     }
 
     return (
         <div className='output-area__wrapper'>
-            { isMobile && (
-                <div className='output-area__mode-setting-wrapper'>
-                    <ModeSettings isMobile={true}/>
-                </div>
-            )}
-            <p className='output-area__header'>Output</p>
+            <p className='output-area__header'>Tokens</p>
             <div className='output-area'>
                     { linesToElements(input, config) }
             </div>
