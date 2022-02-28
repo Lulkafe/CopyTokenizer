@@ -1,8 +1,6 @@
 import { textToLines } from './textTokenizer';
-import { Process } from './enum';
 
 export interface TokenConfig {
-    processType: Process
     removedChars: string
     colorToken: boolean,
     splitBySpace: boolean
@@ -11,12 +9,11 @@ export interface TokenConfig {
 export const initState = {
     input: [],               //User input splited by lines
     originalInputText: '',   //Original user input text as is (string)
-    processType: Process.perWord,
     removedChars: '',
     colorToken: true,
     splitBySpace: true,
     settingMenuOpen: true,      
-    displayInput: false      //True: show Input field. False: Output field
+    displayInput: true      //Only for Mobile
 }
 
 export const ACTION = {
@@ -65,18 +62,6 @@ export const TokenizerReducer = (state, action) => {
                 ...state,
                 originalInputText: action.value
             }
-
-        case ACTION.MODE.LINE:
-            return {
-                ...state,
-                processType: Process.perLine
-            };
-            
-        case ACTION.MODE.SPACE:
-            return {
-                ...state,
-                processType: Process.perWord
-            };
 
         case ACTION.DISPLAY.TOGGLE:
             return {

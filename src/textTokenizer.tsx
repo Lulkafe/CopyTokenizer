@@ -1,5 +1,4 @@
 import React from "react";
-import { Process } from './enum'; 
 import { useState } from "react";
 import { TokenConfig } from "./reducer";
 import { ReactElement } from "react";

@@ -8,7 +8,6 @@ import SiteIcon from './image/site_icon.png';
 import SettingIcon from './image/setting_icon.png';
 import SwitchIcon from './image/arrows.png';
 import ClearIcon from './image/clear_icon.png';
-import { Process } from "./enum";
 import { placeholderText } from "./input-placeholder";
 
 const TokenizerContext = createContext(undefined);
@@ -100,43 +99,43 @@ function SettingsWindow () {
         <div id='setting-window'> 
             <form onSubmit={onSubmit}>
                 <ul>
-                    {/* First setting - Split tokens by lines or whitespaces */}
+                    {/* First setting - Split text by line or whitespace */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Split tokens by...</span> </li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Split text by...</span> </li>
                         <input 
                             type='radio' name='split_by' 
                             defaultChecked={splitBySpace}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-color--yes'><span></span>Whitespaces</label>
+                        <label htmlFor='setting-radio-color--yes'><span></span>whitespace</label>
                         <br/>
                         <input 
                             type='radio' name='split_by' 
                             defaultChecked={!splitBySpace}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-color--no'>New lines</label>
+                        <label htmlFor='setting-window__radio-color--no'>newline</label>
                         <br/>
                     </div>
 
                     {/* Second setting - Gray-out or not */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Gray-outing clicked tokens</span></li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Gray-out clicked tokens</span></li>
                         <input 
                             type='radio' name='token_clicked' 
                             defaultChecked={colorToken}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-color--yes'>On</label>
+                        <label htmlFor='setting-radio-color--yes'>on</label>
                         <br/>
                         <input 
                             type='radio' name='token_clicked' 
                             defaultChecked={!colorToken}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-color--no'>Off</label>
+                        <label htmlFor='setting-window__radio-color--no'>off</label>
                         <br/>
                     </div>
 
                     {/* Third setting - Excluding characters */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Enter characters you want to exclude 
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Type characters you want to exclude 
                             from output tokens (converted into whitespaces)</span></li>
                         <input type='text' 
                             id='setting-window__user-input' 
@@ -233,9 +232,10 @@ function InputArea (props) {
 
 function OutputArea (props) {
     const { state } = useContext(TokenizerContext);
-    const { input, processType, removedChars, colorToken, splitBySpace } = state;
+    const { isMobile } = props;
+    const { input, removedChars, colorToken, splitBySpace } = state;
+    const headerText = `Token (${isMobile? 'Tap' : 'Click'} to copy)`;
     let config: TokenConfig = {
-        processType,
         removedChars,
         colorToken,
         splitBySpace
@@ -243,7 +243,7 @@ function OutputArea (props) {
 
     return (
         <div className='output-area__wrapper'>
-            <p className='output-area__header'>Tokens</p>
+            <p className='output-area__header'>{headerText}</p>
             <div className='output-area'>
                     { linesToElements(input, config) }
             </div>
