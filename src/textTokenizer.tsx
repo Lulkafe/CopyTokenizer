@@ -10,8 +10,6 @@ export function textToLines (text: string): string[] {
 export function linesToElements (lines: string[], config: TokenConfig): ReactElement {
     const elements = config.splitBySpace? 
         generateWordTokens(lines, config): generateLineTokens(lines, config);
-    
-    console.log(elements);
 
     return elements;
 }
@@ -55,7 +53,7 @@ function generateWordTokens (lines: string[], config: TokenConfig): ReactElement
                 if (removedChars)
                     line = replaceCharsWithSpace(line, removedChars); 
 
-                const words = line.trim().split(' ').filter(v => v)
+                const words = line.trim().split(/ |\t/).filter(v => v)
                 return (
                     <p className='output-area__paragraph' key={`line-${i}`}>
                         {words.map(word => 

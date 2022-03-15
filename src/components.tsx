@@ -63,10 +63,12 @@ function GeneralSettings () {
         e.stopPropagation();
         dispatch({ type: ACTION.SETTING.TOGGLE_DISPLAY });
     }
+    const cls = 'setting-icon__wrapper' + 
+        (settingMenuOpen? ' setting-icon__wrapper--menu-open' : '')
     
     return (
         <div>
-            <div className='setting-icon__wrapper' onClick={onClickSettingIcon}>
+            <div className={cls} onClick={onClickSettingIcon}>
                 <img src={SettingIcon} className='setting-icon' />
             </div>
             <div className='setting-window__wrapper'>
@@ -106,7 +108,7 @@ function SettingsWindow () {
                             type='radio' name='split_by' 
                             defaultChecked={splitBySpace}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-color--yes'><span></span>whitespace</label>
+                        <label htmlFor='setting-radio-color--yes'><span></span>space / tab</label>
                         <br/>
                         <input 
                             type='radio' name='split_by' 
