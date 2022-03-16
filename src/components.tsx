@@ -67,14 +67,14 @@ function GeneralSettings () {
         (settingMenuOpen? ' setting-icon__wrapper--menu-open' : '')
     
     return (
-        <>
+        <div>
             <div className={cls} onClick={onClickSettingIcon}>
                 <img src={SettingIcon} className='setting-icon' />
             </div>
             <div className='setting-window__wrapper'>
                 { settingMenuOpen && <SettingsWindow/>}
             </div>
-        </>
+        </div>
     )
 }
 
