@@ -4,7 +4,7 @@ import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
 
-import SiteIcon from './image/site_icon.png';
+import SiteLogo from './image/site-logo.png';
 import SettingIcon from './image/setting_icon.png';
 import SwitchIcon from './image/arrows.png';
 import ClearIcon from './image/clear_icon.png';
@@ -45,7 +45,7 @@ function Header (props) {
             <div className='nav-bar__wrapper'>
                 { isMobile && <DummyNavItem /> }
                 <div className='nav-bar__site-logo-wrapper'>
-                    <img src={SiteIcon} className='nav-bar__site-logo'/>
+                    <img src={SiteLogo} className='nav-bar__site-logo' alt='Site logo'/>
                 </div>
                 <div className='nav-bar__menu-wrapper'>
                     <GeneralSettings/>
@@ -67,14 +67,14 @@ function GeneralSettings () {
         (settingMenuOpen? ' setting-icon__wrapper--menu-open' : '')
     
     return (
-        <div>
+        <>
             <div className={cls} onClick={onClickSettingIcon}>
                 <img src={SettingIcon} className='setting-icon' />
             </div>
             <div className='setting-window__wrapper'>
                 { settingMenuOpen && <SettingsWindow/>}
             </div>
-        </div>
+        </>
     )
 }
 
@@ -108,13 +108,13 @@ function SettingsWindow () {
                             type='radio' name='split_by' 
                             defaultChecked={splitBySpace}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-color--yes'><span></span>space / tab</label>
+                        <label htmlFor='setting-radio-color--yes'><span></span>Words</label>
                         <br/>
                         <input 
                             type='radio' name='split_by' 
                             defaultChecked={!splitBySpace}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-color--no'>newline</label>
+                        <label htmlFor='setting-window__radio-color--no'>New lines</label>
                         <br/>
                     </div>
 
@@ -125,24 +125,25 @@ function SettingsWindow () {
                             type='radio' name='token_clicked' 
                             defaultChecked={colorToken}
                             value={'on'}/>
-                        <label htmlFor='setting-radio-color--yes'>on</label>
+                        <label htmlFor='setting-radio-color--yes'>Yes</label>
                         <br/>
                         <input 
                             type='radio' name='token_clicked' 
                             defaultChecked={!colorToken}
                             value={'off'}/>
-                        <label htmlFor='setting-window__radio-color--no'>off</label>
+                        <label htmlFor='setting-window__radio-color--no'>No</label>
                         <br/>
                     </div>
 
                     {/* Third setting - Excluding characters */}
                     <div className='setting-window__item-wrapper'>
                         <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Type characters you want to exclude 
-                            from output tokens (converted into whitespaces)</span></li>
+                            from output tokens</span></li>
                         <input type='text' 
                             id='setting-window__user-input' 
                             placeholder='e.g. ,.-()[]' 
                             defaultValue={removedChars}
+                            maxLength={30}
                             name='removedChars'>
                         </input>
                     </div>
@@ -236,7 +237,7 @@ function OutputArea (props) {
     const { state } = useContext(TokenizerContext);
     const { isMobile } = props;
     const { input, removedChars, colorToken, splitBySpace } = state;
-    const headerText = `Token (${isMobile? 'Tap' : 'Click'} to copy)`;
+    const headerText = `Tokens (${isMobile? 'Tap' : 'Click'} to copy)`;
     let config: TokenConfig = {
         removedChars,
         colorToken,
