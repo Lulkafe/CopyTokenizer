@@ -9,4 +9,4 @@ it became a pain for me to select a word and press Ctrl+C every time. \
 Therefore I wanted something to reduce the burden. 
 
 ## Data Privacy
-The input is processed at the client side, and is never sent to any servers. 
+The input is processed at the client side. It is never sent to anywhere. 
