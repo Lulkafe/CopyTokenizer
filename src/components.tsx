@@ -238,6 +238,7 @@ function OutputArea (props) {
     const { isMobile } = props;
     const { input, removedChars, colorToken, splitBySpace } = state;
     const headerText = `Tokens (${isMobile? 'Tap' : 'Click'} to copy)`;
+    
     let config: TokenConfig = {
         removedChars,
         colorToken,
@@ -248,7 +249,10 @@ function OutputArea (props) {
         <div className='output-area__wrapper'>
             <p className='output-area__header'>{headerText}</p>
             <div className='output-area'>
-                    { linesToElements(input, config) }
+                { input.length === 0 || input[0] === ''?
+                    <span className='output-area__placeholder'>Your tokens appear here when you input your text in the input field</span> 
+                    : linesToElements(input, config)
+                }
             </div>
         </div> 
     )
