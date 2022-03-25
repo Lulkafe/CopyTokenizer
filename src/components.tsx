@@ -1,9 +1,8 @@
 import React from "react";
-import { useReducer, useContext, createContext } from "react";
+import { useReducer, useContext, createContext, useRef } from "react";
 import { initState, TokenizerReducer, ACTION, TokenConfig } from './reducer'
 import { linesToElements } from "./textTokenizer";
 import { useMediaQuery } from "react-responsive";
-
 import SiteLogo from './image/site-logo.png';
 import SettingIcon from './image/setting_icon.png';
 import SwitchIcon from './image/arrows.png';
@@ -202,19 +201,17 @@ function Content (props) {
 }
 
 function InputArea (props) {
-
     const { dispatch } = useContext(TokenizerContext);
     const defaultText: string = props.defaultText;
     const placeholder: string = placeholderText;
-    const textAreaId: string = 'input-area'
+    const textAreaRef = useRef(null);
+    const textAreaClass: string = 'input-area'
     const onInput = () => {
-        const value: string = (document.getElementById
-            (textAreaId) as HTMLInputElement).value;
+        const value: string = textAreaRef.current.value;
         dispatch({type: ACTION.INPUT.UPDATE, value});
     }
     const onClickClearButton = () => {
-        (document.getElementById
-            (textAreaId) as HTMLInputElement).value = '';
+        textAreaRef.current.value = '';
         dispatch({type: ACTION.INPUT.CLEAR});
     }
 
@@ -224,7 +221,10 @@ function InputArea (props) {
                 <img className='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
             </div>
             <p className='input-area__header'>Your text</p>
-            <textarea id={textAreaId}
+            <textarea 
+                id='input-area'
+                className={textAreaClass}
+                ref={textAreaRef}
                 onInput={onInput}
                 placeholder={placeholder}
                 defaultValue={defaultText}>

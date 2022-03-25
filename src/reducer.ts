@@ -12,7 +12,7 @@ export const initState = {
     removedChars: '',
     colorToken: true,
     splitBySpace: true,
-    settingMenuOpen: true,      
+    settingMenuOpen: false,      
     displayInput: true      //Only for Mobile
 }
 
