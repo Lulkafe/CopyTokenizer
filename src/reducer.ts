@@ -9,12 +9,13 @@ export interface TokenConfig {
 export const initState = {
     input: [],               //User input splited by lines
     originalInputText: '',   //Original user input text as is (string)
-    removedChars: '',
-    colorToken: true,
-    splitBySpace: true,
-    settingMenuOpen: false,      
-    displayInput: true      //Only for Mobile
-}
+    removedChars: '',        //chars of the string will be removed from output tokens
+    colorToken: true,        //If true, a clicked toke is grayed-out
+    splitBySpace: true,      //If false, user input is split by new line
+    settingMenuOpen: false,  
+    displayInput: true       //Only for Mobile. used to determine 
+                             //which screen to show (input/output)
+} 
 
 export const ACTION = {
     INPUT: {

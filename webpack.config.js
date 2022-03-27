@@ -13,7 +13,7 @@ const stylesHandler = 'style-loader';
 const config = {
     entry: './src/index.tsx',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -53,7 +53,7 @@ module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
         
-        
+
     } else {
         config.mode = 'development';
     }
