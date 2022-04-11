@@ -40,10 +40,6 @@ export const ACTION = {
 
 export const TokenizerReducer = (state, action) => {
 
-    console.log('New event dispatched');
-    console.log(action);
-    console.log(state);
-
     switch (action.type) {
         case ACTION.INPUT.UPDATE:
             return {

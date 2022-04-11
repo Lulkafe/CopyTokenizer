@@ -102,7 +102,7 @@ function SettingsWindow () {
                 <ul>
                     {/* First setting - Split text by line or whitespace */}
                     <div className='setting-window__item-wrapper'>
-                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Split text by...</span> </li>
+                        <li><span className='setting-window__item-dot'>&#8226; </span><span className='setting-window__item-header'>Split text by</span> </li>
                         <input 
                             type='radio' name='split_by' 
                             defaultChecked={splitBySpace}
@@ -250,7 +250,7 @@ function OutputArea (props) {
             <p className='output-area__header'>{headerText}</p>
             <div className='output-area'>
                 { input.length === 0 || input[0] === ''?
-                    <span className='output-area__placeholder'>Your tokens appear here when you input your text in the input field</span> 
+                    <span className='output-area__placeholder'>Your tokens appear here when you input your text in the input field.</span> 
                     : linesToElements(input, config)
                 }
             </div>
