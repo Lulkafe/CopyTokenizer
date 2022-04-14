@@ -141,7 +141,7 @@ function SettingsWindow () {
                         <input type='text' 
                             id='setting-window__user-input' 
                             placeholder='e.g. ,.-()[]' 
-                            defaultValue={removedChars}
+                            defaultValue={removedChars} 
                             maxLength={30}
                             name='removedChars'>
                         </input>
@@ -220,7 +220,7 @@ function InputArea (props) {
             <div className='input-area__clear-button-container'>
                 <img className='clear-button' src={ClearIcon} onClick={onClickClearButton} alt='Clear icon'/>
             </div>
-            <p className='input-area__header'>Your text</p>
+            <p className='input-area__header'>Your text (Input)</p>
             <textarea 
                 id='input-area'
                 className={textAreaClass}
@@ -250,7 +250,7 @@ function OutputArea (props) {
             <p className='output-area__header'>{headerText}</p>
             <div className='output-area'>
                 { input.length === 0 || input[0] === ''?
-                    <span className='output-area__placeholder'>Your tokens appear here when you input your text in the input field.</span> 
+                    <span className='output-area__placeholder'>Word/Line tokens appear here when you input text in the input field.</span> 
                     : linesToElements(input, config)
                 }
             </div>

@@ -1,1 +1,1 @@
-export const placeholderText = `Type/Paste your text here. The corresponding tokens will be generated in the Token field.`;
+export const placeholderText = `This app makes copying words/lines easier. Type/Paste your text here. Word/line tokens will appear in the Token field.`;
