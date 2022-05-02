@@ -1,6 +1,6 @@
 # CopyTokenizer
 A simple web app that makes copying many words/lines easier. \
-The app acceps user text as input and generates clickable tokens.
+The app takes user text as input and generates clickable tokens.\
 When the token is clicked/tapped, the text of the token is copied to clipboard.
 
 A demo is available [here](https://lulkafe.github.io/CopyTokenizer/).
